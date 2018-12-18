@@ -2,10 +2,10 @@ library(tidyverse)
 library(magrittr)
 library(here)
 
-base_folder <- file.path("Collection Procedures", "Original (Overleaf Export)") %>%
+base_folder <- file.path("Collection_Procedures", "Original (Overleaf Export)") %>%
   here()
 
-new_proc_folder <- file.path("Collection Procedures", "Documentation")
+new_proc_folder <- file.path("Collection_Procedures", "Documentation")
 
 # Handle all image files
 doc_files <- base_folder %>%
@@ -21,6 +21,7 @@ file_df <- data_frame(path = doc_files,
       tools::toTitleCase(),
     new_filename = str_replace_all(filename, "main.tex", paste0(new_folder, ".tex")) %>%
       str_replace_all(., "title_page_1.tex", paste0(new_folder, ".tex")) %>%
+      str_replace_all(., " ", "-") %>%
       str_replace_all(., "[[:punct:] ]{1,}\\.tex$", ".tex"),
     file_hash = sapply(path, function(x) openssl::md5(file(file.path(base_folder, x))) %>% as.character)
   )
@@ -34,6 +35,8 @@ file.copy(from = file.path(base_folder, file_df$path),
 
 # Knit all tex files to pdf:
 tex_files <- list.files(here(new_proc_folder), "*.tex$", full.names = T)
-wd <- setwd(here("Collection Procedures/Documentation"))
+
+
+wd <- setwd(here("Collection_Procedures/Documentation"))
 sapply(tex_files, tinytex::latexmk, clean = T)
 
