@@ -20,7 +20,8 @@ file_df <- data_frame(path = doc_files,
       str_replace("-$", "") %>%
       tools::toTitleCase(),
     new_filename = str_replace_all(filename, "main.tex", paste0(new_folder, ".tex")) %>%
-      str_replace_all(., "title_page_1.tex", paste0(new_folder, "_title_page_1.tex")),
+      str_replace_all(., "title_page_1.tex", paste0(new_folder, ".tex")) %>%
+      str_replace_all(., "[[:punct:] ]{1,}\\.tex$", ".tex"),
     file_hash = sapply(path, function(x) openssl::md5(file(file.path(base_folder, x))) %>% as.character)
   )
 
@@ -32,6 +33,7 @@ file.copy(from = file.path(base_folder, file_df$path),
           overwrite = T)
 
 # Knit all tex files to pdf:
-tex_files <- list.files(here(new_proc_folder), "*.tex", full.names = T)
-sapply(tex_files, tinytex::latexmk)
+tex_files <- list.files(here(new_proc_folder), "*.tex$", full.names = T)
+wd <- setwd(here("Collection Procedures/Documentation"))
+sapply(tex_files, tinytex::latexmk, clean = T)
 
