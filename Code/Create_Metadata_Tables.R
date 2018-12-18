@@ -21,8 +21,13 @@ participant_data <- read.xlsx(here("PII/shoeprints_key.xlsx"), check.names = F, 
 
 participants <- participant_data %>%
   mutate(WearerID = sapply(email, digest::digest) %>% factor(levels = unique(.)) %>% as.numeric()) %>%
-  select(WearerID, ShoeID = ID, Weight, Height,
-         Do.you.engage.in.any.of.the.activities.listed.bel:`As.a.study.participant,.how.often.do.you.anticipa`)
+  select(WearerID, ShoeID = ID, Weight_lbs = Weight, Height_ft = Height,
+         Do.you.engage.in.any.of.the.activities.listed.bel:`As.a.study.participant,.how.often.do.you.anticipa`) %>%
+  mutate(WearerID = sprintf("%03d", WearerID),
+         ShoeID = sprintf("%03d", ShoeID))
+
+left_join(shoe_models, participants) %>%
+  write.csv(here("Clean_Data/shoe-info.csv"))
 
 
 survey_data <- read.xlsx(here("Surveys/Organized surveys (Full and Clean).xlsx"),
@@ -36,3 +41,7 @@ survey_data <- read.xlsx(here("Surveys/Organized surveys (Full and Clean).xlsx")
   set_names(c(names(.)[1:5], "Number.of.steps_Range1000", "Notes", "Hours.worn.per.week", "Hours.worn.per.week_Range10", "Percent.time.in.study.shoes.of.total.time.wearing.shoes", names(.)[11:32])) %>%
   set_names(tools::toTitleCase(names(.))) %>%
   set_names(str_replace(names(.), "\\.{1,}", "."))
+
+
+write.csv(survey_data, here("Clean_Data/visit-info.csv"))
+
