@@ -24,22 +24,27 @@ In addition, single-procedure files are provided for each collection
 method:
 
   - [Tekscan Mat
-    Scanner](Collection_Procedures/Documentation/Mat-Scanner-Procedure.pdf)
+    Scanner](Collection_Procedures/Documentation/Tekscan_Mat_Scanner.pdf)
   - [2d Digital Scanner (EverOS
-    Everspry)](Collection_Procedures/Documentation/2d-Procedure.pdf)
+    Everspry)](Collection_Procedures/Documentation/2d_Digital_Scanner_Everos.pdf)
   - [Digital
-    Camera](Collection_Procedures/Documentation/Camera-Tripod-Procedure.pdf)
+    Camera](Collection_Procedures/Documentation/Digital_Camera.pdf)
   - [Film/Powder
-    Prints](Collection_Procedures/Documentation/Film-Powder-Print.pdf)
+    Prints](Collection_Procedures/Documentation/Film_Powder_Print.pdf)
+    (Creation of prints using adhesive film and fingerprint powder)
   - [Paper Print/Vinyl
-    Prints](Collection_Procedures/Documentation/Paper-Powder-Print.pdf)
-      - [Vinyl Print
-        photos](Collection_Procedures/Documentation/Vinyl-Photo-Procedure.pdf)
-      - [Scanner Procedure - paper and film
-        prints](Collection_Procedures/Documentation/Epson-Bed-Scanner.pdf)
+    Prints](Collection_Procedures/Documentation/Paper_Vinyl_Print.pdf)
+    (Creation of prints using fingerprint powder and paper or vinyl
+    planks)
+  - [Scanner Procedure - paper and film
+    prints](Collection_Procedures/Documentation/Scanning_Film_Paper_Prints.pdf)
+  - [Photography Procedure - Vinyl
+    prints](Collection_Procedures/Documentation/Vinyl_Photos.pdf)
   - [3d Digital Scanner
-    (Stationary)](Collection_Procedures/Documentation/EinScan-Pro+-3D-Scanner-Procedure-Phase-2.pdf)
+    (Stationary)](Collection_Procedures/Documentation/3dScanner_Turntable.pdf)
     - for the EinScan Pro+ 3D Scanner with a turntable
+  - [3d Digital Scanner
+    (Handheld)](Collection_Procedures/Documentation/3dScanner_Handheld.pdf)
 
 #### Realistic Prints Expansion
 
