@@ -1,0 +1,9 @@
+\documentclass{article}
+
+\title{Longitudinal Study of Athletic Shoe Wear}
+\begin{document}
+
+
+
+
+\end{document}
