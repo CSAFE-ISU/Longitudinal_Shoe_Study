@@ -19,6 +19,9 @@ Measurements were taken using the following equipment:
 - Powder and Paper
 - Powder and Vinyl flooring
 
+
+## Image-Specific Metadata
+
 Images are named with respect to the following convention:
 {ID#}_{Date}_{Method}_{Image#}_{Rep#}_{ID of technician(s)}
 
@@ -50,7 +53,7 @@ where:
         - Image:
             1. Handheld scan
             2. Turntable scan
-        - Replicate: two or three reps per shoe, depending on whether the shoe is part of the subset
+        - Replicate: two or three reps per shoe, depending on whether the shoe is part of the higher-replicate subset
     4. Digital Camera
         - Image: two images per shoe
         - Replicate: one replicate per shoe/image
@@ -61,59 +64,31 @@ where:
         - Replicate: one replicate per shoe
     6. Paper and Powder
         - Image: 
-            1. 
+            1. Detail
+            2. Walking
+            3. Stomp
+            4. Smudge
+        - Replicate: one per shoe
     7. Vinyl Photograph
-- Image: Specific to the collection method. Indicates data type for mat scan, specific collection procedure for other methods
-    1. Matscan
-        
-    
+        - Image: 1 image each
+        - Replicate: 2 reps per shoe
+- ID of technician(s): Some methods require that an individual wear the shoe, another individual collect the data; in those cases names are separated by underscores. 
 
-### Collection Method Documentation
+## Visit-level Metadata
+(Visit-info.csv)
 
-#### Initial Longitudinal Study
+- Shoe ID: 3 digit (may be left-padded with 0s)
+- Activities: listed, and estimated hours spent per week
+- Number of Steps: Cumulative, as measured by the pedometer. Notes are provided to indicate "rollover" events (when the pedometer flipped from 999999 to 0). In some cases, pedometers were accidentally reset, and numbers are approximate/estimated.
+- Hours Worn per week: an additional column is included with the number range rounded to a reasonable interval for comparison purposes.
+- Activity time estimates are reported in hours (approximately)
 
-The [baseline collection
-procedures](Collection_Procedures/Documentation/Methods-Techniques-Shoe.pdf)
-were used in the collection of initial data about the unworn shoes and
-the study participants as well as during the study. The baseline
-procedure documents the collection procedures; a separate document
-describes [changes made to these procedures during the
-study](Collection_Procedures/Documentation/Procedure.pdf) to improve
-image quality and reduce equipment malfunctions.
 
-In addition, single-procedure files are provided for each collection
-method:
+## Shoe-level Metadata
+(Shoe-info.csv)
 
-  - [Tekscan Mat
-    Scanner](Collection_Procedures/Documentation/Tekscan_Mat_Scanner.pdf)
-  - [2d Digital Scanner (EverOS
-    Everspry)](Collection_Procedures/Documentation/2d_Digital_Scanner_Everos.pdf)
-  - [Digital
-    Camera](Collection_Procedures/Documentation/Digital_Camera.pdf)
-  - [Film/Powder
-    Prints](Collection_Procedures/Documentation/Film_Powder_Print.pdf)
-    (Creation of prints using adhesive film and fingerprint powder)
-  - [Paper Print/Vinyl
-    Prints](Collection_Procedures/Documentation/Paper_Vinyl_Print.pdf)
-    (Creation of prints using fingerprint powder and paper or vinyl
-    planks)
-  - [Scanner Procedure - paper and film
-    prints](Collection_Procedures/Documentation/Scanning_Film_Paper_Prints.pdf)
-  - [Photography Procedure - Vinyl
-    prints](Collection_Procedures/Documentation/Vinyl_Photos.pdf)
-  - [3d Digital Scanner
-    (Stationary)](Collection_Procedures/Documentation/3dScanner_Turntable.pdf)
-    - for the EinScan Pro+ 3D Scanner with a turntable
-  - [3d Digital Scanner
-    (Handheld)](Collection_Procedures/Documentation/3dScanner_Handheld.pdf)
+- Shoe ID: 3 digit (may be left-padded with 0s)
+- Wearer ID: An ID indicating the wearer. Some participants wore two separate pairs of shoes, one of each model. 
+- Weight: self-reported weight in pounds (reported at the initial visit)
+- Height: Height in feet (decimal)
 
-#### Realistic Prints Expansion
-
-At the conclusion of the longitudinal study, we decided to create prints
-similar to those which may be found at a crime scene with some of the
-worn shoes.
-
-  - [Dental Stone
-    Casting](Collection_Procedures/Documentation/Casting-Procedure.pdf)
-  - [Shoe Impressions in
-    Dust](Collection_Procedures/Documentation/Shoe-Impressions-in-Dust-Photography-and-Lifting-Procedure.pdf)
