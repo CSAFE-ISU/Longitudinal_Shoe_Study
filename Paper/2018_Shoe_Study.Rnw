@@ -35,6 +35,33 @@ loaded.pkgs <- sapply(required.pkgs, library, character.only = T)
 
 
 \section{Study Design}
+In order to address the concerns identified by the PCAST and NRC reports, we have designed this study to produce a reference database which will facilitate comparisons between different data collection methods, allow for white-box and black-box studies of randomly acquired characteristic analysis, and provide information about the development and degradation of RACs and other wear patterns as shoes are worn.
+
+We selected two common models of athletic shoes: Adidas Seeley and Nike Winflo 4; by controlling the shoe models available, we can provide several sets of data for each size/model combination. In addition, the two shoes have different outsole materials: Adidas Seeley shoes have a hard rubber sole, while Nike Winflo shoes have a much softer rubber and foam construction. We expected that these shoes would accumulate RACs at different rates based on material differences.
+
+<<sizes, echo = F>>=
+shoe_model_data <- read.xlsx(here("shoeprints data.xlsx")) %>%
+  select(1, 2, 4:5, 11) %>%
+  set_names(c("ID", "cohort", "modelColor", "size", "mw")) %>%
+  mutate(model = str_extract(modelColor, "Nike|Adidas") %>%
+           str_replace_all(c("Nike" = "Nike Winflo 4",
+                             "Adidas" = "Adidas Seeley"))) %>%
+  mutate(Size = paste0(size, mw))
+
+shoe_model_data %>%
+  arrange(model, mw, Size) %>%
+  group_by(model, mw, Size) %>%
+  count(name = "count") %>%
+  ungroup() %>%
+  select(-mw) %>%
+  set_names(c("Model", "Size", "# Participants")) %>%
+  knitr::kable(format = "latex", caption = "")
+@
+
+
+
+
+Each shoe was provided in four sizes
 
 
 \section{Measurement Methods}
