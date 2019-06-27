@@ -1,8 +1,44 @@
 \documentclass{article}
 
 \title{Longitudinal Study of Athletic Shoe Wear}
-\begin{document}
+\author{Susan VanderPlas, James Kruse, Guillermo Basulto-Elias, Alicia Carriquiry}
 
+\begin{document}
+\maketitle
+
+% Motivate database
+% - lack of publicly available data on real shoes
+% - no known longitudinal data on shoe wear
+% - no way to easily compare features identified by different measuring tools
+
+- 2009 NRC report - "the committee is not aware of any data about the variability of class or individual characteristics or about the validity or reliability of the method. Without such population studies, it is impossible to assess the number of characteristics that must match in order to have any particular degree of confidence about the source of the impression"
+
+- 2009 NRC report - "But neither IAI nor SWGTREAD addresses the issue of what critical research should be done... [including] the persistence of individual characteristics, the rarity of certain characteristic types, and the appropriate statistical standards to apply to the significance of individual characteristics."
+
+- PCAST report - `` `Experience' is an inadequate foundation for drawing judgments about whether two sets of featureus could have been produced by (or found on) different sources. Even if examiners could recall in sufficient detail all the patterns or sets of features that they have seen, they would have no way of knowing accurately in which cases two patterns actually came from different sources, because the correct answers are rarely known in casework" - Thus, it's important to have data where ground truth is known, and in particular, data which controls for the class characteristics of a shoe so that the individual characteristics can be identified and compared across data sources.
+
+- PCAST report - "The issue is not whether objects or features differ; they surely do if one looks at a fine enough level. The issue is how well and under what circumstances examiners applying a given metrological method can reliably detect relevant differences in features to reliably identify whether they share a common source" - the goal with this study is to provide data which could be used for these empirical studies - data that examines different metrological methods and allows for known match and known non-match comparisons across collection method.
+
+- PCAST report - "there are no appropriate empirical studies to support the foundational validity of footwear analysis to associate shoeprints with particular shoes based on specific identifying marks... Such conclusions are unsupported by any meaningful evidence or estimates of their accuracy and are thus not scientifically valid". This study provides data which could be used for empirical testing and future studies of examiner reliability and consistency as well as accuracy rate determinations.
+
+- Relatively little information about how individual wear patterns develop on different shoe models
+
+- Longitudinal persistance of RACs over time
+
+
+\section{Study Design}
+
+
+\section{Measurement Methods}
+% Description and technical specifications for each data collection type
+
+\section{Analysis?}
+% Some sort of exploratory analysis
+
+\section{Database Design}
+% Features of the database, ways to access the data - datashare links as well as csafe database links
+
+\section{Applications and Future Work}
 
 
 
