@@ -1,4 +1,12 @@
 \documentclass{article}
+<<setup, echo = F, cache = F, include = F>>=
+required.pkgs <- c("tidyverse", "openxlsx", "here")
+missing.pkgs <- !required.pkgs %in% installed.packages()
+if (sum(missing.pkgs) > 0) {
+  install.packages(required.pkgs[missing.pkgs])
+}
+loaded.pkgs <- sapply(required.pkgs, library, character.only = T)
+@
 
 \title{Longitudinal Study of Athletic Shoe Wear}
 \author{Susan VanderPlas, James Kruse, Guillermo Basulto-Elias, Alicia Carriquiry}
