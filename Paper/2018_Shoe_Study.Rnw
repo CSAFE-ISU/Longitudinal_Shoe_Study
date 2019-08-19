@@ -1,6 +1,19 @@
 \documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+% --- Bibliography management ---
+\usepackage{natbib}
+\bibliographystyle{unsrtnat}
+
+% --- Formatting ---
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{colortbl}
+
 <<setup, echo = F, cache = F, include = F>>=
-required.pkgs <- c("tidyverse", "openxlsx", "here")
+required.pkgs <- c("tidyverse", "openxlsx", "here", "knitr", "kableExtra")
 missing.pkgs <- !required.pkgs %in% installed.packages()
 if (sum(missing.pkgs) > 0) {
   install.packages(required.pkgs[missing.pkgs])
@@ -19,27 +32,24 @@ loaded.pkgs <- sapply(required.pkgs, library, character.only = T)
 % - no known longitudinal data on shoe wear
 % - no way to easily compare features identified by different measuring tools
 
-- 2009 NRC report - "the committee is not aware of any data about the variability of class or individual characteristics or about the validity or reliability of the method. Without such population studies, it is impossible to assess the number of characteristics that must match in order to have any particular degree of confidence about the source of the impression"
+There is a well-recognized lack of scientific and statistical data underlying forensic techniques such as footwear analysis, as documented in the \citeyear{NRC2009} NRC report and the \citeyear{PCAST2016} PCAST report, which addressed challenges to forensic science as a discipline and highlighted areas for future research to shore up the foundations of forensic science for use in legal proceedings. For instance, the 2009 NRC report highlighted the complete lack of data underlying any statements about the frequency or variability of class or individual characteristics within the population:
+\begin{quote}...the committee is not aware of any data about the variability of class or individual characteristics or about the validity or reliability of the method. Without such population studies, it is impossible to assess the number of characteristics that must match in order to have any particular degree of confidence about the source of the impression...\end{quote}
+Databases of footwear characteristics are essential in order to make any claims about the confidence that certain characteristic matches are not due to chance alone. Data also does not exist to support claims regarding the persistence of individual characteristics:
 
-- 2009 NRC report - "But neither IAI nor SWGTREAD addresses the issue of what critical research should be done... [including] the persistence of individual characteristics, the rarity of certain characteristic types, and the appropriate statistical standards to apply to the significance of individual characteristics."
+\begin{quote}...But neither IAI nor SWGTREAD addresses the issue of what critical research should be done... [including] the persistence of individual characteristics, the rarity of certain characteristic types, and the appropriate statistical standards to apply to the significance of individual characteristics. \end{quote}
 
-- PCAST report - `` `Experience' is an inadequate foundation for drawing judgments about whether two sets of featureus could have been produced by (or found on) different sources. Even if examiners could recall in sufficient detail all the patterns or sets of features that they have seen, they would have no way of knowing accurately in which cases two patterns actually came from different sources, because the correct answers are rarely known in casework" - Thus, it's important to have data where ground truth is known, and in particular, data which controls for the class characteristics of a shoe so that the individual characteristics can be identified and compared across data sources.
+One consequence of this fundamental lack of available data is that forensic examiners must testify about evidence without quantitative evidence to shore up their claims, instead relying on individual experience to make statements such as ``In the opinion of the examiner, the particular known footwear or tire was the source of, and made, the questioned impression. Another item of footwear or tire being the source of the impression is considered a practical impossibility" (SWGTREAD \citeyear{SWGTREAD-conclusions}); that is, statements which rely on the examiner's experience and subjective assessment of the probability of another shoe matching the evidence recovered from the crime scene. As discussed in the PCAST report (\citeyear{PCAST2016}), \begin{quote}`Experience' is an inadequate foundation for drawing judgments about whether two sets of features could have been produced by (or found on) different sources. Even if examiners could recall in sufficient detail all the patterns or sets of features that they have seen, they would have no way of knowing accurately in which cases two patterns actually came from different sources, because the correct answers are rarely known in casework.\end{quote} Thus, it's important to have data where ground truth is known, and in particular, data which controls for the class characteristics of a shoe so that the individual characteristics can be identified and compared across data sources, separated from the class characteristics which are determined by the model of the shoe.
 
-- PCAST report - "The issue is not whether objects or features differ; they surely do if one looks at a fine enough level. The issue is how well and under what circumstances examiners applying a given metrological method can reliably detect relevant differences in features to reliably identify whether they share a common source" - the goal with this study is to provide data which could be used for these empirical studies - data that examines different metrological methods and allows for known match and known non-match comparisons across collection method.
+The goal of this study is to provide a source for reliable data which can be used as a foundation to examine some of the essential questions in footwear forensics. We examine shoes worn by different individuals across several time points, tracking wear levels and the development of individual characteristics. In addition to this goal, we also examine several different methods for measuring shoe tread characteristics, in order to provide data which can be used to establish the practical limitations of different collection methods and technologies. This, too, is a deficiency in current methods established by the PCAST report (\citeyear{PCAST2016}): \begin{quote}The issue is not whether objects or features differ; they surely do if one looks at a fine enough level. The issue is how well and under what circumstances examiners applying a given metrological method can reliably detect relevant differences in features to reliably identify whether they share a common source.\end{quote} This study provides data from 6 different collection methods across several timepoints for a total of 180 individuals. In addition to the longitudinal shoe data, we also collected data characterizing the pressure exerted by each individual when walking, in order to provide some information about the kinematic forces involved when the shoe is worn.
 
-- PCAST report - "there are no appropriate empirical studies to support the foundational validity of footwear analysis to associate shoeprints with particular shoes based on specific identifying marks... Such conclusions are unsupported by any meaningful evidence or estimates of their accuracy and are thus not scientifically valid". This study provides data which could be used for empirical testing and future studies of examiner reliability and consistency as well as accuracy rate determinations.
-
-- Relatively little information about how individual wear patterns develop on different shoe models
-
-- Longitudinal persistance of RACs over time
-
+There are a great many analyses which will follow using this data, but we are releasing the collected data publicly before these analyses have been completed in order to provide data to support the foundational scientific validity of footwear analyses. Our hope is that the forensic footwear community will join us in analyzing this data to provide empirical support for claims of examiner reliability and assessment methods.
 
 \section{Study Design}
 In order to address the concerns identified by the PCAST and NRC reports, we have designed this study to produce a reference database which will facilitate comparisons between different data collection methods, allow for white-box and black-box studies of randomly acquired characteristic analysis, and provide information about the development and degradation of RACs and other wear patterns as shoes are worn.
 
 We selected two common models of athletic shoes: Adidas Seeley and Nike Winflo 4; by controlling the shoe models available, we can provide several sets of data for each size/model combination. In addition, the two shoes have different outsole materials: Adidas Seeley shoes have a hard rubber sole, while Nike Winflo shoes have a much softer rubber and foam construction. We expected that these shoes would accumulate RACs at different rates based on material differences.
 
-<<sizes, echo = F>>=
+<<sizes, echo = F, include = T, render='asis'>>=
 shoe_model_data <- read.xlsx(here("shoeprints data.xlsx")) %>%
   select(1, 2, 4:5, 11) %>%
   set_names(c("ID", "cohort", "modelColor", "size", "mw")) %>%
@@ -55,17 +65,19 @@ shoe_model_data %>%
   ungroup() %>%
   select(-mw) %>%
   set_names(c("Model", "Size", "# Participants")) %>%
-  knitr::kable(format = "latex", caption = "")
+  knitr::kable(format = "latex", caption = "Shoe sizes and number of participants. M and W stand for men's and women's sizing respectively. ", label = "shoesize", booktabs = T, linesep = "") %>%
+  kableExtra::kable_styling(latex_options = "striped", stripe_index = c(1:2, 5:6))
 @
 
+Each shoe was provided in four sizes, shown in \autoref{tab:shoesize}. Participants were given the choice of which model of shoe they would like to wear, producing an imbalance in the distribution of Nike and Adidas shoes. At the beginning of the study, participants completed some initial testing (described in more detail below) and completed a survey which provided information about activities (walking, running, hiking) as well as participant characteristics such as weight which affect the shoe's wear over time. Shoes were fitted with a pedometer to measure activity, and participants committed to wearing the shoes for at least 10,000 steps per week.
 
+After the initial data collection, which was more extensive, participants returned the shoes once every 5-6 weeks for 3 check-ins. Participants completed a questionnaire describing their activities whilst wearing the shoes, and the shoes were left for a period of approximately one week, during which various data collection techniques were completed. These data collection techniques are described in \autoref{sec:measurement-methods} in more detail.
 
-
-Each shoe was provided in four sizes
-
-
-\section{Measurement Methods}
+\section{Measurement Methods}\label{sec:measurement-methods}
 % Description and technical specifications for each data collection type
+
+
+
 
 \section{Analysis?}
 % Some sort of exploratory analysis
@@ -76,5 +88,7 @@ Each shoe was provided in four sizes
 \section{Applications and Future Work}
 
 
+
+\bibliography{refs}
 
 \end{document}
