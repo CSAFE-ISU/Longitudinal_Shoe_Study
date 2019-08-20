@@ -1,5 +1,4 @@
 \documentclass{article}
-\usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 
 % --- Bibliography management ---
@@ -12,8 +11,13 @@
 \usepackage{booktabs}
 \usepackage{colortbl}
 
+% --- Math ---
+\usepackage{amsmath,amssymb}
+
 <<setup, echo = F, cache = F, include = F>>=
-required.pkgs <- c("tidyverse", "openxlsx", "here", "knitr", "kableExtra")
+knitr::opts_chunk$set(echo = F, message = F, cache = T, dpi = 300)
+required.pkgs <- c("tidyverse", "openxlsx", "here", "knitr", "kableExtra", "magrittr", "lubridate", "imager", "rgl")
+setupKnitr()
 missing.pkgs <- !required.pkgs %in% installed.packages()
 if (sum(missing.pkgs) > 0) {
   install.packages(required.pkgs[missing.pkgs])
@@ -76,8 +80,269 @@ After the initial data collection, which was more extensive, participants return
 \section{Measurement Methods}\label{sec:measurement-methods}
 % Description and technical specifications for each data collection type
 
+Six basic collection methods were used throughout the study: 2D digital scanning, digital photography (of the shoe), powder prints from the shoe onto clear adhesive film, powder prints from the shoe onto paper (digitized by scanner), powder prints from the shoe onto vinyl flooring (recorded using digital photography), and 3D digital scanning. In addition to these procedures, which were conducted at the beginning of the experiment and after 3 check-in periods, a pressure scanner was utilized during the initial visit to characterize the distribution of pressure (with and without shoes) across the participant's foot while walking. This data was not collected during subsequent check-ins. In the interests of assessing measurement variability, each data collection method was repeated at least once (for a total of two measurements) during each measurement window.
+
+In this section we will provide a brief description of each collection method, including examples of the collected data as well as theoretical resolution (where appropriate).
+
+\subsection{Pressure Scanner}
+Pressure scans were recorded during the initial participant visit (that is, when participants were first issued shoes), using a Tekscan HR Mat scanner with a sensor resolution of $0.5 \text{cm}^2$ and temporal resolution of 185 Hz\footnote{\url{https://www.tekscan.com/products-solutions/systems/hr-mat}. Cached version available at \url{https://webcache.googleusercontent.com/search?q=cache:BZBl2bvx-H4J:https://www.tekscan.com/products-solutions/systems/hr-mat+}}. Participants walked across the mat 12 times, resulting in 3 scans of each foot while wearing a shoe, and 3 scans of each foot while wearing only a thin disposible sock. Videos and still images of the pressure distribution were saved; frames from the video and still images are shown in Figures \ref{fig:pressurescanner-video} and \ref{fig:pressurescanner-static}, respectively.
+
+<<data-setup, include = F>>=
+shoe_info <- readr::read_csv(here::here("Clean_Data/shoe-info.csv"))
+
+lss_location <- if (Sys.info()[["sysname"]] == "Linux") {
+  "/lss/research/csafe-shoeprints/ShoeImagingPermanent/"
+} else {
+  # Need to see what it is on Windows...
+  NA
+}
+
+participant_ids <- c("005", "007")
+@
+
+<<pressurescanner-data-function, include = F>>=
+read_csv_video <- function(file) {
+  file_lines <- readLines(file)
+
+  frames <- stringr::str_detect(file_lines, "(Phase|Frame) \\d{1,}")
+
+  frame_idx <- which(frames) + 1
+  frame_idx_end <- frame_idx + 87
+
+  frames_with_values <- stringr::str_extract(file_lines[frame_idx - 1], "Raw Sum=.*$") %>%
+    str_remove_all("\\D") %>% readr::parse_number()
+
+  if (sum(!is.na(frames_with_values)) > 0) {
+    frame_idx <- frame_idx[frames_with_values > 0]
+    frame_idx_end <- frame_idx_end[frames_with_values > 0]
+  }
 
 
+  purrr::pmap_df(list(1:length(frame_idx), frame_idx, frame_idx_end),
+                 function(aa, bb, cc) read_csv(paste(file_lines[bb:cc], collapse = "\n"),
+                                               col_names = F) %>%
+                   mutate(frame = aa, row = 1:n()) %>%
+                   tidyr::gather(key = "col", value = "value", -row, -frame) %>%
+                   mutate(col = parse_integer(stringr::str_remove(col, "\\D{1,}"))))
+}
+@
+
+
+<<pressurescanner-video, fig.cap = "4 equally spaced frames from the video of participants 005 and 007 walking across the pressure scanner, with and without shoes.", echo = F, fig.width = 8, fig.height = 4>>=
+pressure_videos <- tibble(
+  file = list.files(lss_location, pattern = "^00[57]\\d{3}L_\\d{8}_1_[16]_1_.*\\.csv", full.names = T),
+  frame_data = purrr::map(file, read_csv_video)
+) %>%
+  mutate(
+    plot_frame_data = purrr::map(frame_data, function(df) {
+      frames <- round(seq(min(df$frame), max(df$frame), length.out = 6))[2:5]
+      filter(df, is_in(frame,frames))
+    })
+  ) %>%
+  mutate(
+    participant = str_extract(file, "005|007"),
+    type = str_extract(file, "1.[16].1") %>%
+      str_remove("^1[[:punct:]]") %>%
+      str_remove("[[:punct:]]1$") %>%
+      str_replace_all(c("1" = "barefoot", "6" = "shoe"))
+  )
+
+plot_pressure_data <- pressure_videos %>%
+  unnest(plot_frame_data) %>%
+  group_by(participant, type) %>%
+  mutate(frame_order = factor(as.character(frame), labels = c("A", "B", "C", "D"))) %>%
+  group_by(participant, type, row) %>%
+  mutate(row_total = sum(value)) %>%
+  group_by(participant, type, col) %>%
+  mutate(col_total = sum(value)) %>%
+  ungroup() %>%
+  group_by(participant, type) %>%
+  mutate(min_row = min(row[row_total > 0]), max_row = max(row[row_total > 0]),
+         min_col = min(col[col_total > 0]), max_col = max(col[col_total > 0])) %>%
+  ungroup() %>%
+  filter(row >= min_row, row <= max_row, col >= min_col, col <= max_col) %>%
+  group_by(participant, type) %>%
+  mutate(row = row - min(row) + 1,
+         col = col - min(col) + 1)
+
+ggplot(plot_pressure_data, aes(x = row, y = col, fill = value + 1)) +
+  geom_tile() +
+  facet_grid(participant + type ~ frame_order, space = "free") +
+  scale_fill_gradientn("Pressure\nRating", colors = c("white", RColorBrewer::brewer.pal(9, "YlGn")), trans = "log10") +
+  coord_fixed() +
+  scale_x_reverse() +
+  theme_void() +
+  theme(panel.background = element_rect(color = "black", fill = "white"),
+        strip.background = element_rect(color = "black", fill = "grey"),
+        strip.text.y = element_text(angle = -90)) +
+  ggtitle("Pressure Scanner Video Data Example")
+@
+
+<<pressurescanner-static, fig.cap = "Still images of pressure scans from participants 005 and 007, with and without shoes", fig.width = 8, fig.height = 4>>=
+pressure_stills <- tibble(
+  file = list.files(lss_location, pattern = "^00[57]\\d{3}L_\\d{8}_1_[27]_1_.*\\.csv", full.names = T),
+  frame_data = purrr::map(file, read_csv_video)
+) %>%
+  mutate(
+    participant = str_extract(file, "005|007"),
+    type = str_extract(file, "1_[27]_1") %>%
+      str_remove("^1[[:punct:]]") %>%
+      str_remove("[[:punct:]]1$") %>%
+      str_replace_all(c("2" = "barefoot", "7" = "shoe"))
+  )
+
+plot_pressure_stills <- pressure_stills %>%
+  unnest() %>%
+  group_by(participant, type, row) %>%
+  mutate(row_total = sum(value)) %>%
+  group_by(participant, type, col) %>%
+  mutate(col_total = sum(value)) %>%
+  ungroup() %>%
+  group_by(participant, type) %>%
+  mutate(min_row = min(row[row_total > 0]), max_row = max(row[row_total > 0]),
+         min_col = min(col[col_total > 0]), max_col = max(col[col_total > 0])) %>%
+  ungroup() %>%
+  filter(row >= min_row, row <= max_row, col >= min_col, col <= max_col) %>%
+  group_by(participant, type) %>%
+  mutate(row = row - min(row) + 1,
+         col = col - min(col) + 1)
+
+ggplot(plot_pressure_stills, aes(x = row, y = col, fill = value + 1)) +
+  geom_tile() +
+  facet_grid(participant ~ type, space = "free") +
+  scale_fill_gradientn("Pressure\nRating", colors = c("white", RColorBrewer::brewer.pal(9, "YlGn")), trans = "log10") +
+  coord_fixed() +
+  scale_x_reverse() +
+  theme_bw() +
+  theme(axis.title = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid = element_blank(),
+        panel.background = element_rect(color = "black", fill = "white"),
+        strip.background = element_rect(color = "black", fill = "grey"),
+        strip.text.y = element_text(angle = -90)) +
+  ggtitle("Pressure Scanner Still Image Example")
+@
+
+Pressure scans were not taken during subsequent check-in measurement points because there was little reason to expect significant changes in an individual's gait over the relatively short study period.
+
+\subsection{2D Digital Scanner}
+
+At each measurement point throughout the study, shoes were imaged using a two-dimensional digital scanner, the Everspry EverOS v2.0\footnote{\url{http://www.footprintmatcher.com/products/EverOS\%20V2.0.pdf}}. This scanner provides 300 dpi image resolution and records areas where the shoe tread contacts the walking surface.
+
+In order to image the shoes using the EverOS scanner, lab assistants wore the participants' shoes while traversing the scanner in two different ways: normal walking, and a more stationary ``detail" print. Examples of these images are shown in \autoref{fig:everos-imgs}. Two replicates of each shoe and image type combination were taken, for a total of 8 2D scans per measurement point.
+
+<<everos-imgs, fig.cap = "Digital images taken using the EverOS v2.0 scanner. Images are from the left shoes of participants 005 and 007, taken during the initial visit (before participants had worn the shoes).", cache.lazy = FALSE, fig.width = 8, fig.height = 8/5*2>>=
+everos_imgs <- list.files(lss_location, pattern = "^00[57]\\d{3}L_2017\\d{4}_2_[12]_1_.*", full.names = T)
+
+raster_save_location <- here::here("Paper/raster_data_plot.RDS")
+if (file.exists(raster_save_location)) {
+  raster_data_plot <- readRDS(raster_save_location)
+} else {
+  rasterlist <- tibble(
+    file = everos_imgs,
+    participant = str_extract(file, "005|007"),
+    type = str_extract(file, "2_[12]_1") %>%
+      str_remove("^2[[:punct:]]") %>%
+      str_remove("[[:punct:]]1$") %>%
+      str_replace_all(c("1" = "Detail", "2" = "Walking")),
+    rasterdf = purrr::map(everos_imgs, imager::load.image) %>%
+      purrr::map(function(xx) {
+        xx %>%
+          as.raster() %>%
+          as.matrix() %>%
+          as_tibble(.name_repair = "minimal") %>%
+          set_names(as.character(1:ncol(.))) %>%
+          mutate(row = 1:n()) %>%
+          tidyr::gather(key = "col", value = "value", -row) %>%
+          mutate(col = readr::parse_integer(col)) %>%
+          filter(value != "#FFFFFF")
+      })
+  )
+  raster_data_plot <- rasterlist %>%
+    unnest(rasterdf)
+  saveRDS(raster_data_plot, file = raster_save_location)
+}
+
+ggplot(data = raster_data_plot, aes(x = row, y = col, fill = value)) +
+  geom_raster() +
+  scale_fill_identity() +
+  facet_grid(participant~type) +
+  coord_fixed() +
+  theme_bw() +
+  theme(axis.title = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid = element_blank(),
+        panel.background = element_rect(color = "black", fill = "white"),
+        strip.background = element_rect(color = "black", fill = "grey"),
+        strip.text.y = element_text(angle = -90))
+
+@
+
+\subsection{3D Digital Scanner}
+At each measurement point, shoes were also scanned with a three-dimensional scanner; specifically, the EinScan-Pro+ scanner\footnote{\url{https://www.einscan.com/handheld-3d-scanner/einscan-pro-plus/}}. The sole of each shoe was scanned using ``Handheld Rapid Scan" mode from approximately 12" above the shoe sole to produce a STL file characterizing the surface.
+
+After the final data collection point, shoe soles were scanned using the scanner's auxiliary turntable, which produces much higher resolution scans.
+
+<<3d-scans>>=
+scan_3d <-
+  tibble(
+    file = list.files(lss_location, pattern = "^00[57]\\d{3}L_\\d{8}_3_[12]_1_.*", full.names = T),
+    participant = str_extract(file, "005|007"),
+    type = str_extract(file, "3_[12]_1") %>%
+      str_remove("^3[[:punct:]]") %>%
+      str_remove("[[:punct:]]1$") %>%
+      str_replace_all(c("1" = "Handheld", "2" = "Turntable")),
+    date = str_extract(file, "\\d{8}") %>% lubridate::ymd()
+  ) %>%
+  group_by(participant, type) %>%
+  filter(date == max(date)) %>%
+  mutate(stl = purrr::map(file, rgl::readSTL, plot = F, ascii = F))
+
+scan_3d <- scan_3d %>%
+  mutate(stl_center = purrr::map(stl, scale, center = T, scale = F),
+         asp_ratio = purrr::map_dbl(stl_center, function(x) {
+           asp_ranges <- apply(x, 2, function(xx) diff(range(xx)))
+           asp_ranges[1]/asp_ranges[2] # This actually isn't correct - need to use pca or something to get reasonable surface rotation matrix?
+         }),
+         name = sprintf("Participant %s, %s scan", participant, type))
+
+user_mat <- list(
+  structure(c(0.937049567699432, -0.0810819789767265, 0.339646428823471,
+              0, -0.0187115967273712, -0.982927978038788, -0.18302583694458,
+              0, 0.348688900470734, 0.165149331092834, -0.922571241855621,
+              0, 0, 0, 0, 1), .Dim = c(4L, 4L)),
+  structure(c(-0.866365671157837, -0.178002715110779, 0.46656459569931,
+              0, 0.00676984805613756, 0.930016338825226, 0.367393344640732,
+              0, -0.499316841363907, 0.321463465690613, -0.804542541503906,
+              0, 0, 0, 0, 1), .Dim = c(4L, 4L)),
+  structure(c(0.962948977947235, 0.108996115624905, 0.246657997369766,
+              0, 0.0736871063709259, -0.986215353012085, 0.148127943277359,
+              0, 0.259404003620148, -0.124464869499207, -0.957711100578308,
+              0, 0, 0, 0, 1), .Dim = c(4L, 4L)),
+  structure(c(0.970346808433533, 0.0750713720917702, 0.229732573032379,
+              0, -0.034701082855463, -0.897408306598663, 0.439823895692825,
+              0, 0.239185556769371, -0.434756517410278, -0.868197739124298,
+              0, 0, 0, 0, 1), .Dim = c(4L, 4L))
+)
+
+rgl::open3d(windowRect = c(0, 0, 1000, (2 + .25)*round(1000/2.5)), zoom = .75)
+rgl::layout3d(matrix(1:4, nrow = 2), sharedMouse = F)
+
+purrr::pwalk(list(scan_3d$stl_center, user_mat, 1:4, scan_3d$name), function(x, y, z, z1) {
+  rgl::triangles3d(x, aspect = "iso", col = "red", zoom = .75)
+  rgl::view3d(userMatrix = y)
+  Sys.sleep(1)
+  # rgl::axes3d(expand = 1.1)
+  rgl::title3d(main = z1)
+  rgl::rgl.bringtotop()
+
+  if (z != 4) rgl::next3d(clear = F)
+})
+
+
+@
 
 \section{Analysis?}
 % Some sort of exploratory analysis
@@ -92,3 +357,4 @@ After the initial data collection, which was more extensive, participants return
 \bibliography{refs}
 
 \end{document}
+
