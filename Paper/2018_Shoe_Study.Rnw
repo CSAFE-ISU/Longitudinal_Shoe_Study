@@ -373,6 +373,32 @@ During the experiment, the photography procedure changed slightly on recommendat
 \caption{Photographs of the left shoes of participants 005 and 007, at each data collection point. \label{fig:dslr-photos}}
 \end{figure}
 
+\subsection{Adhesive Film and Powder Prints}
+In order to record the shoe surface in great detail, prints were collected using clear adhesive film and fingerprint powder. The shoe's surface was dusted with fingerprint powder, with excess powder removed using compressed air. A research assistant carefully put the shoe on, placing the heel of the shoe against the edge of the adhesive film, and used a roll step to ensure that the entire shoe sole made contact with the adhesive film. The film backing was then reapplied to the adhesive film using a roller; the database contains high-resolution scans of these completed prints. A second print was taken by pressing the adhesive film against the shoe without the full roll step to mimic the normal contact surface of the shoe. For 25 of the 160 pairs of shoes in the study, an additional replicate of each print was recorded in order to assess variability between repeated measurements of the same shoe. Examples of the walking and
+
+\begin{figure}
+$\vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20171211_5_1_1_csafe_kruse-bryson-zwart.jpg}}}
+% \vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180124_5_1_1_csafe_hdzwart_kruse_Zwart.jpg}}}
+% \vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180228_5_1_1_csafe_boekhoff_kruse_bryson.jpg}}}
+\vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180411_5_1_1_kruse_zwart_kruse.jpg}}}$\\
+$\vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20171211_5_2_1_csafe_kruse-bryson-zwart.jpg}}}
+% \vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180124_5_2_1_csafe_hdzwart_kruse_Zwart.jpg}}}
+% \vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180228_5_2_1_csafe_boekhoff_kruse_bryson.jpg}}}
+\vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180411_5_2_1_kruse_zwart_kruse.jpg}}}$\\
+$\vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20171211_5_1_1_csafe_kruse-bryson-zwart.jpg}}}
+% \vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20180124_5_1_1_csafe_hdzwart_kruse_hanrahan.jpg}}}
+% \vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20180228_5_1_1_csafe_boekhoff_kruse_bryson.jpg}}}
+\vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20180411_5_1_1_kruse_zwart_kruse.jpg}}}$\\
+$\vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20171211_5_2_1_csafe_kruse-bryson-zwart.jpg}}}
+% \vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20180124_5_2_1_csafe_hdzwart_kruse_hanrahan.jpg}}}
+% \vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20180228_5_2_1_csafe_boekhoff_kruse_bryson.jpg}}}
+\vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20180411_5_2_1_kruse_zwart_kruse.jpg}}}$
+\caption{Scans of the left shoes of participants 005 and 007, at the first and last data collection points. \label{fig:film-powder}}
+\end{figure}
+
+\svp{May want to add brand(s)? of film, powder, and scanner model used... or is that too much detail?}
+
+
 \section{Analysis?}
 % Some sort of exploratory analysis
 
