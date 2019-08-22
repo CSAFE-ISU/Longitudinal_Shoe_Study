@@ -10,6 +10,11 @@
 \usepackage{xcolor}
 \usepackage{booktabs}
 \usepackage{colortbl}
+\definecolor{blue}{cmyk}{1,1,0,0}
+\definecolor{pink}{cmyk}{0,1,0,0}
+\definecolor{darkgreen}{cmyk}{0, .39, .97, 0}
+\newcommand{\todo}[1]{\textcolor{pink}{#1}}
+\newcommand{\svp}[1]{\textcolor{blue}{#1}}
 
 % --- Math ---
 \usepackage{amsmath,amssymb}
@@ -17,12 +22,13 @@
 <<setup, echo = F, cache = F, include = F>>=
 knitr::opts_chunk$set(echo = F, message = F, cache = T, dpi = 300)
 required.pkgs <- c("tidyverse", "openxlsx", "here", "knitr", "kableExtra", "magrittr", "lubridate", "imager", "rgl")
-setupKnitr()
 missing.pkgs <- !required.pkgs %in% installed.packages()
 if (sum(missing.pkgs) > 0) {
   install.packages(required.pkgs[missing.pkgs])
 }
 loaded.pkgs <- sapply(required.pkgs, library, character.only = T)
+
+setupKnitr()
 @
 
 \title{Longitudinal Study of Athletic Shoe Wear}
@@ -91,7 +97,7 @@ Pressure scans were recorded during the initial participant visit (that is, when
 shoe_info <- readr::read_csv(here::here("Clean_Data/shoe-info.csv"))
 
 lss_location <- if (Sys.info()[["sysname"]] == "Linux") {
-  "/lss/research/csafe-shoeprints/ShoeImagingPermanent/"
+  here::here("Paper/sampledata")
 } else {
   # Need to see what it is on Windows...
   NA
@@ -232,7 +238,7 @@ At each measurement point throughout the study, shoes were imaged using a two-di
 
 In order to image the shoes using the EverOS scanner, lab assistants wore the participants' shoes while traversing the scanner in two different ways: normal walking, and a more stationary ``detail" print. Examples of these images are shown in \autoref{fig:everos-imgs}. Two replicates of each shoe and image type combination were taken, for a total of 8 2D scans per measurement point.
 
-<<everos-imgs, fig.cap = "Digital images taken using the EverOS v2.0 scanner. Images are from the left shoes of participants 005 and 007, taken during the initial visit (before participants had worn the shoes).", cache.lazy = FALSE, fig.width = 8, fig.height = 8/5*2>>=
+<<everos-imgs, fig.cap = "Digital images taken using the EverOS v2.0 scanner. Images are from the left shoes of participants 005 and 007, taken during the initial visit (before participants had worn the shoes).", cache.lazy = FALSE, fig.width = 8, fig.height = 8/5*2, out.width = "\\textwidth">>=
 everos_imgs <- list.files(lss_location, pattern = "^00[57]\\d{3}L_2017\\d{4}_2_[12]_1_.*", full.names = T)
 
 raster_save_location <- here::here("Paper/raster_data_plot.RDS")
@@ -281,11 +287,19 @@ ggplot(data = raster_data_plot, aes(x = row, y = col, fill = value)) +
 @
 
 \subsection{3D Digital Scanner}
-At each measurement point, shoes were also scanned with a three-dimensional scanner; specifically, the EinScan-Pro+ scanner\footnote{\url{https://www.einscan.com/handheld-3d-scanner/einscan-pro-plus/}}. The sole of each shoe was scanned using ``Handheld Rapid Scan" mode from approximately 12" above the shoe sole to produce a STL file characterizing the surface.
+At each measurement point, shoes were also scanned with a three-dimensional scanner; specifically, the EinScan-Pro+ scanner\footnote{\url{https://www.einscan.com/handheld-3d-scanner/einscan-pro-plus/}}. The sole of each shoe was scanned using ``Handheld Rapid Scan" mode from approximately 12" above the shoe sole to produce a STL file characterizing the surface. Two replicates from each shoe were recorded. Additionally, an additional replicate was recorded for 25 selected participants, resulting in a total of 3 replicates in the extended subset.
 
-After the final data collection point, shoe soles were scanned using the scanner's auxiliary turntable, which produces much higher resolution scans.
+At the conclusion of the study, the shoe soles were scanned using the scanner's auxiliary turntable, which produces much higher resolution scans. Low and high resolution scans of the left shoes of participants 005 and 007 are shown in \autoref{fig:3dscans}. \svp{If we get this thing back from reviewers saying collect the rest of the data with turntable, I'm going to strangle something.}
 
-<<3d-scans>>=
+\begin{figure}
+\includegraphics[width=.49\textwidth]{figure/3d_shoes_Participant_005,_Handheld_scan.png}
+\includegraphics[width=.49\textwidth]{figure/3d_shoes_Participant_005,_Turntable_scan.png}
+\includegraphics[width=.49\textwidth]{figure/3d_shoes_Participant_007,_Handheld_scan.png}
+\includegraphics[width=.49\textwidth]{figure/3d_shoes_Participant_007,_Turntable_scan.png}
+\caption{Handheld and turntable scans from the final measurement point for the left shoes of participants 005 and 007. The turntable scans have a much higher resolution compared to the handheld scans.\label{fig:3dscans}}
+\end{figure}
+
+<<3d-scans, dev="png", eval = F>>=
 scan_3d <-
   tibble(
     file = list.files(lss_location, pattern = "^00[57]\\d{3}L_\\d{8}_3_[12]_1_.*", full.names = T),
@@ -309,10 +323,10 @@ scan_3d <- scan_3d %>%
          name = sprintf("Participant %s, %s scan", participant, type))
 
 user_mat <- list(
-  structure(c(0.937049567699432, -0.0810819789767265, 0.339646428823471,
-              0, -0.0187115967273712, -0.982927978038788, -0.18302583694458,
-              0, 0.348688900470734, 0.165149331092834, -0.922571241855621,
-              0, 0, 0, 0, 1), .Dim = c(4L, 4L)),
+  structure(c(0.863850295543671, 0.105972096323967, 0.492470979690552,
+              0, 0.0217040628194809, -0.984541714191437, 0.173786520957947,
+              0, 0.503276109695435, -0.1394372433424, -0.852798640727997, 0,
+              0, 0, 0, 1), .Dim = c(4L, 4L)),
   structure(c(-0.866365671157837, -0.178002715110779, 0.46656459569931,
               0, 0.00676984805613756, 0.930016338825226, 0.367393344640732,
               0, -0.499316841363907, 0.321463465690613, -0.804542541503906,
@@ -321,28 +335,43 @@ user_mat <- list(
               0, 0.0736871063709259, -0.986215353012085, 0.148127943277359,
               0, 0.259404003620148, -0.124464869499207, -0.957711100578308,
               0, 0, 0, 0, 1), .Dim = c(4L, 4L)),
-  structure(c(0.970346808433533, 0.0750713720917702, 0.229732573032379,
-              0, -0.034701082855463, -0.897408306598663, 0.439823895692825,
-              0, 0.239185556769371, -0.434756517410278, -0.868197739124298,
-              0, 0, 0, 0, 1), .Dim = c(4L, 4L))
+  structure(c(0.995098650455475, 0.086215928196907, 0.0482813268899918,
+              0, 0.058195274323225, -0.90621030330658, 0.418792247772217, 0,
+              0.0798620134592056, -0.41393256187439, -0.906792163848877, 0,
+              0, 0, 0, 1), .Dim = c(4L, 4L))
 )
 
-rgl::open3d(windowRect = c(0, 0, 1000, (2 + .25)*round(1000/2.5)), zoom = .75)
-rgl::layout3d(matrix(1:4, nrow = 2), sharedMouse = F)
+
+rgl::open3d(zoom = 1, windowRect = c(0, 30, 2000, 830), cex = 2, bbox = c(-150, 150, -50, 50, -40, 40))
 
 purrr::pwalk(list(scan_3d$stl_center, user_mat, 1:4, scan_3d$name), function(x, y, z, z1) {
-  rgl::triangles3d(x, aspect = "iso", col = "red", zoom = .75)
-  rgl::view3d(userMatrix = y)
-  Sys.sleep(1)
+
+  rgl::triangles3d(x, aspect = "iso", col = "red")
+  rgl::view3d(userMatrix = y, fov = 60, zoom = .6)
   # rgl::axes3d(expand = 1.1)
-  rgl::title3d(main = z1)
-  rgl::rgl.bringtotop()
-
-  if (z != 4) rgl::next3d(clear = F)
+  rgl::title3d(z1)
+  rgl::snapshot3d(here::here(sprintf("Paper/figure/3d_shoes_%s.png", gsub(" ", "_", z1))))
+  if (z != 4) rgl::clear3d()
 })
-
-
 @
+
+
+\subsection{Digital Photography}
+A Canon EOS 5D Mark IV camera was used to take photographs of the shoe soles. Shoes were positioned light-colored surface, with a ruler in the camera frame to provide scale information. Two images were captured for each shoe.
+
+During the experiment, the photography procedure changed slightly on recommendations from practitioners and statistical analysts. L-rulers were added on a stand to be level with the shoe sole, and the background of the image was changed to make the images easier to work with. A summary of the changes to the photography procedure can be found in the appendix, but most changes are easily discernable from the example images in \autoref{fig:dslr-photos}.
+
+\begin{figure}
+\includegraphics[angle=90,width=.24\textwidth]{sampledata/small-005772L_20171213_4_1_1_csafe_jekruse.jpg}
+\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180124_4_1_1_csafe_jekruse.jpg}
+\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180228_4_1_1_csafe_jekruse.jpg}
+\includegraphics[angle=180,origin=c,width=.24\textwidth]{sampledata/small-005772L_20180411_4_1_1_csafe_hanrahan.jpg}\\
+\includegraphics[angle=90,width=.24\textwidth]{sampledata/small-007961L_20171030_4_1_1_csafe_hdzwart.jpg}
+\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20180124_4_1_1_csafe_jekruse.jpg}
+\includegraphics[angle=180,origin=c,width=.24\textwidth]{sampledata/small-007961L_20180228_4_1_1_csafe_jekruse.jpg}
+\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20180411_4_1_1_csafe_jekruse.jpg}
+\caption{Photographs of the left shoes of participants 005 and 007, at each data collection point. \label{fig:dslr-photos}}
+\end{figure}
 
 \section{Analysis?}
 % Some sort of exploratory analysis
