@@ -236,7 +236,7 @@ Pressure scans were not taken during subsequent check-in measurement points beca
 
 At each measurement point throughout the study, shoes were imaged using a two-dimensional digital scanner, the Everspry EverOS v2.0\footnote{\url{http://www.footprintmatcher.com/products/EverOS\%20V2.0.pdf}}. This scanner provides 300 dpi image resolution and records areas where the shoe tread contacts the walking surface.
 
-In order to image the shoes using the EverOS scanner, lab assistants wore the participants' shoes while traversing the scanner in two different ways: normal walking, and a more stationary ``detail" print. Examples of these images are shown in \autoref{fig:everos-imgs}. Two replicates of each shoe and image type combination were taken, for a total of 8 2D scans per measurement point.
+In order to image the shoes using the EverOS scanner, lab assistants wore the participants' shoes while traversing the scanner in two different ways: normal walking, and a more stationary ``detail" print. Examples of these images are shown in \autoref{fig:everos-imgs}. Two replicates of each shoe and image type combination were taken in order to facilitate estimation of variability in print features \citep{shorInherentVariationMultiple2018}, for a total of 8 2D scans per measurement point.
 
 <<everos-imgs, fig.cap = "Digital images taken using the EverOS v2.0 scanner. Images are from the left shoes of participants 005 and 007, taken during the initial visit (before participants had worn the shoes).", cache.lazy = FALSE, fig.width = 8, fig.height = 8/5*2, out.width = "\\textwidth">>=
 everos_imgs <- list.files(lss_location, pattern = "^00[57]\\d{3}L_2017\\d{4}_2_[12]_1_.*", full.names = T)
@@ -292,10 +292,10 @@ At each measurement point, shoes were also scanned with a three-dimensional scan
 At the conclusion of the study, the shoe soles were scanned using the scanner's auxiliary turntable, which produces much higher resolution scans. Low and high resolution scans of the left shoes of participants 005 and 007 are shown in \autoref{fig:3dscans}. \svp{If we get this thing back from reviewers saying collect the rest of the data with turntable, I'm going to strangle something.}
 
 \begin{figure}
-\includegraphics[width=.49\textwidth]{figure/3d_shoes_Participant_005,_Handheld_scan.png}
-\includegraphics[width=.49\textwidth]{figure/3d_shoes_Participant_005,_Turntable_scan.png}
-\includegraphics[width=.49\textwidth]{figure/3d_shoes_Participant_007,_Handheld_scan.png}
-\includegraphics[width=.49\textwidth]{figure/3d_shoes_Participant_007,_Turntable_scan.png}
+$\vcenter{\hbox{\includegraphics[width=.49\textwidth]{figure/3d_shoes_Participant_005_Handheld_scan.png}}}$
+$\vcenter{\hbox{\includegraphics[width=.49\textwidth]{figure/3d_shoes_Participant_005_Turntable_scan.png}}}$\\\\
+$\vcenter{\hbox{\includegraphics[width=.49\textwidth]{figure/3d_shoes_Participant_007_Handheld_scan.png}}}$
+$\vcenter{\hbox{\includegraphics[width=.49\textwidth]{figure/3d_shoes_Participant_007_Turntable_scan.png}}}$
 \caption{Handheld and turntable scans from the final measurement point for the left shoes of participants 005 and 007. The turntable scans have a much higher resolution compared to the handheld scans.\label{fig:3dscans}}
 \end{figure}
 
@@ -323,22 +323,22 @@ scan_3d <- scan_3d %>%
          name = sprintf("Participant %s, %s scan", participant, type))
 
 user_mat <- list(
-  structure(c(0.863850295543671, 0.105972096323967, 0.492470979690552,
-              0, 0.0217040628194809, -0.984541714191437, 0.173786520957947,
-              0, 0.503276109695435, -0.1394372433424, -0.852798640727997, 0,
-              0, 0, 0, 1), .Dim = c(4L, 4L)),
-  structure(c(-0.866365671157837, -0.178002715110779, 0.46656459569931,
-              0, 0.00676984805613756, 0.930016338825226, 0.367393344640732,
-              0, -0.499316841363907, 0.321463465690613, -0.804542541503906,
+  structure(c(0.721356153488159, 0.0144246034324169, 0.692412316799164,
+              0, 0.0713419318199158, -0.996011316776276, -0.0535748079419136,
+              0, 0.68887859582901, 0.0880447626113892, -0.719508945941925,
               0, 0, 0, 0, 1), .Dim = c(4L, 4L)),
-  structure(c(0.962948977947235, 0.108996115624905, 0.246657997369766,
-              0, 0.0736871063709259, -0.986215353012085, 0.148127943277359,
-              0, 0.259404003620148, -0.124464869499207, -0.957711100578308,
+  structure(c(-0.971620917320251, -0.0439640507102013, 0.232348531484604,
+              0, -0.0275621190667152, 0.996907353401184, 0.0733876302838326,
+              0, -0.234860062599182, 0.0649039968848228, -0.969843506813049,
               0, 0, 0, 0, 1), .Dim = c(4L, 4L)),
-  structure(c(0.995098650455475, 0.086215928196907, 0.0482813268899918,
-              0, 0.058195274323225, -0.90621030330658, 0.418792247772217, 0,
-              0.0798620134592056, -0.41393256187439, -0.906792163848877, 0,
-              0, 0, 0, 1), .Dim = c(4L, 4L))
+  structure(c(0.902428328990936, -0.0343063697218895, 0.429402559995651,
+              0, 0.00632915273308754, -0.99563467502594, -0.0928289815783501,
+              0, 0.430720269680023, 0.0864878296852112, -0.898296058177948,
+              0, 0, 0, 0, 1), .Dim = c(4L, 4L)),
+  structure(c(0.990450084209442, 0.116532817482948, 0.0736701488494873,
+              0, 0.0688847154378891, -0.881174325942993, 0.467745512723923,
+              0, 0.119424000382423, -0.458204180002213, -0.880787193775177,
+              0, 0, 0, 0, 1), .Dim = c(4L, 4L))
 )
 
 
@@ -350,9 +350,20 @@ purrr::pwalk(list(scan_3d$stl_center, user_mat, 1:4, scan_3d$name), function(x, 
   rgl::view3d(userMatrix = y, fov = 60, zoom = .6)
   # rgl::axes3d(expand = 1.1)
   rgl::title3d(z1)
-  rgl::snapshot3d(here::here(sprintf("Paper/figure/3d_shoes_%s.png", gsub(" ", "_", z1))))
+  file_path <- here::here(sprintf("Paper/figure/3d_shoes_%s.png", gsub(" ", "_", z1))) %>%
+    gsub(",", "", .)
+  rgl::snapshot3d(file_path)
   if (z != 4) rgl::clear3d()
 })
+
+ims <- list.files(here::here("Paper/figure"), "3d_shoes", full.names = T)
+purrr::walk(ims, function(file_path) {
+  imager::load.image(file = file_path) %>%
+    imager::autocrop(color = "white", axes = "xy") %>%
+    imager::save.image(file_path, quality = 1)
+})
+
+
 @
 
 
@@ -374,36 +385,74 @@ During the experiment, the photography procedure changed slightly on recommendat
 \end{figure}
 
 \subsection{Adhesive Film and Powder Prints}
-In order to record the shoe surface in great detail, prints were collected using clear adhesive film and fingerprint powder. The shoe's surface was dusted with fingerprint powder, with excess powder removed using compressed air. A research assistant carefully put the shoe on, placing the heel of the shoe against the edge of the adhesive film, and used a roll step to ensure that the entire shoe sole made contact with the adhesive film. The film backing was then reapplied to the adhesive film using a roller; the database contains high-resolution scans of these completed prints. A second print was taken by pressing the adhesive film against the shoe without the full roll step to mimic the normal contact surface of the shoe. For 25 of the 160 pairs of shoes in the study, an additional replicate of each print was recorded in order to assess variability between repeated measurements of the same shoe. Examples of the walking and
+In order to record the shoe surface in great detail, prints were collected using clear vinyl adhesive film and fingerprint powder. Vinyl film has been proposed as an inexpensive alternative to electrostatic lifters for recovery of prints at crime scenes \citep{lemayValidationVinylStatic2011}; it also provides an inexpensive way to record the surface of the shoe directly\citep{whitlowInvestigationTestImpression2017}. In order to directly measure the shoe's surface, it was first dusted with fingerprint powder using a brush; excess powder was removed using a light jet of compressed air. A research assistant carefully put the shoe on, placing the heel of the shoe against the edge of the adhesive film, and used a roll step to ensure that the entire shoe sole made contact with the adhesive film (a ``detail" print). A second print was taken by pressing the adhesive film against the shoe without the full roll step to mimic the normal contact surface of the shoe (a ``press" print). The film backing was then reapplied to the adhesive film using a roller, and scanned using a high resolution flatbed scanner. For 25 of the 160 pairs of shoes in the study, an additional replicate of each print was recorded in order to assess variability between repeated measurements of the same shoe. Examples of the walking and detailed prints are shown in \autoref{fig:film-powder}.
 
 \begin{figure}
 $\vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20171211_5_1_1_csafe_kruse-bryson-zwart.jpg}}}
 % \vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180124_5_1_1_csafe_hdzwart_kruse_Zwart.jpg}}}
 % \vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180228_5_1_1_csafe_boekhoff_kruse_bryson.jpg}}}
-\vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180411_5_1_1_kruse_zwart_kruse.jpg}}}$\\
-$\vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20171211_5_2_1_csafe_kruse-bryson-zwart.jpg}}}
-% \vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180124_5_2_1_csafe_hdzwart_kruse_Zwart.jpg}}}
-% \vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180228_5_2_1_csafe_boekhoff_kruse_bryson.jpg}}}
-\vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180411_5_2_1_kruse_zwart_kruse.jpg}}}$\\
+\vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180411_5_1_1_kruse_zwart_kruse.jpg}}}$
 $\vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20171211_5_1_1_csafe_kruse-bryson-zwart.jpg}}}
 % \vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20180124_5_1_1_csafe_hdzwart_kruse_hanrahan.jpg}}}
 % \vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20180228_5_1_1_csafe_boekhoff_kruse_bryson.jpg}}}
 \vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20180411_5_1_1_kruse_zwart_kruse.jpg}}}$\\
+$\vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20171211_5_2_1_csafe_kruse-bryson-zwart.jpg}}}
+% \vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180124_5_2_1_csafe_hdzwart_kruse_Zwart.jpg}}}
+% \vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180228_5_2_1_csafe_boekhoff_kruse_bryson.jpg}}}
+\vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180411_5_2_1_kruse_zwart_kruse.jpg}}}$
 $\vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20171211_5_2_1_csafe_kruse-bryson-zwart.jpg}}}
 % \vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20180124_5_2_1_csafe_hdzwart_kruse_hanrahan.jpg}}}
 % \vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20180228_5_2_1_csafe_boekhoff_kruse_bryson.jpg}}}
 \vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20180411_5_2_1_kruse_zwart_kruse.jpg}}}$
-\caption{Scans of the left shoes of participants 005 and 007, at the first and last data collection points. \label{fig:film-powder}}
+\caption{Scans of the left shoes of participants 005 and 007, at the first (left) and last (right) data collection points. Detail prints are shown on the top; press prints are shown on the bottom. For each shoe model, the left-most print was taken at the beginning of the study, and the right-most print was taken at the end of the study.\label{fig:film-powder}}
 \end{figure}
 
 \svp{May want to add brand(s)? of film, powder, and scanner model used... or is that too much detail?}
+
+\subsection{Paper and Powder Prints}
+
+\svp{Need to add the "why" for some of these prints.}
+
+In addition to the film and powder prints described above, prints were also collected on paper using fingerprint powder. As in the adhesive print section, a brush was used to apply fingerprint powder to the shoe sole, and compressed air was used to remove any excess powder before print collection. A research assistant put the shoe on and, in sequence, completed 4 prints with different motions and dynamic forces. First, the assistant used a roll step to carefully capture a highly detailed print, taking care that all portions of the shoe contact the paper surface. Next, the research assistant used a normal walking step to mark a second sheet of paper. For the third print, the assistant stomped on another sheet of paper, leaving a much more forceful impression; finally, the assistant stepped on the fourth sheet of paper and twisted their foot slightly, leaving a smudged print. Immediately after this sequence, the assistant completed the vinyl print described in the next section. Paper and powder prints were immediately labeled and laminated, then digitized using a high resolution flatbed scanner. Example prints are shown in \autoref{fig:paper-powder}.
+
+\begin{figure}
+\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180411_6_1_1_kruse_zwart_Kruse.jpg}
+\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180411_6_2_1_kruse_zwart_Kruse.jpg}
+\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180411_6_3_1_kruse_zwart_Kruse.jpg}
+\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180411_6_4_1_kruse_zwart_Kruse.jpg}\\
+\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20180411_6_1_1_kruse_zwart_Kruse.jpg}
+\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20180411_6_2_1_kruse_zwart_Kruse.jpg}
+\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20180411_6_3_1_kruse_zwart_Kruse.jpg}
+\includegraphics[width=.24\textwidth]{sampledata/small-007961L_20180411_6_4_1_kruse_zwart_Kruse.jpg}
+\caption{Scans of laminated paper and powder prints from the final data collection point for the left shoes of participants 005 (top) and 007 (bottom). From left to right, the images show a `detail' print, walking print, stomp print, and smudge print; these prints were taken in sequence. \label{fig:paper-powder}}
+\end{figure}
+
+This portion of the experiment was included in order to provide some reference data for estimation of variability in shoe print features due to changes in the dynamic motions used to record the print.
+
+\subsection{Vinyl and Powder Prints}
+
+All of the methods used thus far to record shoe sole details do not address the distortions and quality degradation that often occur in prints left at a crime scene. In order to mimic the challenges of using prints recovered from the crime scene, we recorded two replicates of prints on wood-patterned vinyl flooring. These prints were recorded after the paper and powder prints described in the previous section, without reapplying fingerprint powder to the shoe. Oblique light sources were  placed in order to highlight the features of the print, and after the initial data collection, a square ruler is included in the print for scale. The prints were then photographed with a high-resolution digital camera; examples are shown in \autoref{fig:vinyl-powder}.
+
+\begin{figure}
+\includegraphics[width=.49\textwidth]{sampledata/small-005772L_20171108_7_1_1_csafe_bpbryson.jpg}
+\includegraphics[width=.49\textwidth]{sampledata/small-007961L_20171108_7_1_1_csafe_bpbryson.jpg}\\
+\includegraphics[width=.49\textwidth]{sampledata/small-005772L_20180124_7_1_1_kruse_hanrahan.jpg}
+\includegraphics[width=.49\textwidth]{sampledata/small-007961L_20180124_7_1_1_kruse_hanrahan.jpg}\\
+\includegraphics[width=.49\textwidth]{sampledata/small-005772L_20180228_7_1_1_kruse_kruse.jpg}
+\includegraphics[width=.49\textwidth]{sampledata/small-007961L_20180228_7_1_1_kruse_kruse.jpg}\\
+\includegraphics[width=.49\textwidth]{sampledata/small-005772L_20180411_7_1_1_kruse_zwart.jpg}
+\includegraphics[width=.49\textwidth]{sampledata/small-007961L_20180411_7_1_1_kruse_zwart.jpg}
+\caption{Vinyl and powder prints taken from the left shoes of participant 005 (left) and 007 (right). \label{fig:vinyl-powder}}
+\end{figure}
+
+\section{Data Access}
+All of the data described in the previous section is publicly available at the CSAFE Forensic Science Data Portal (\url{https://forensicstats.org/data/}), along with relevant metadata (participant weight, number of steps at each data collection point, surfaces walked across) and detailed data collection procedures describing exactly how the data was collected and any changes made in the data collection procedures during the experiment (such as the addition of the square rulers in photographs). Additional bulk downloads of the collection are available at \url{http://doi.org/10.25380/iastate.c.4477757}. The Data Portal site links to a visual database which can be used to select subsets of the data described in this paper for specific analysis projects.
+
 
 
 \section{Analysis?}
 % Some sort of exploratory analysis
 
-\section{Database Design}
-% Features of the database, ways to access the data - datashare links as well as csafe database links
 
 \section{Applications and Future Work}
 
