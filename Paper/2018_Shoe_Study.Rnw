@@ -28,7 +28,7 @@ if (sum(missing.pkgs) > 0) {
 }
 loaded.pkgs <- sapply(required.pkgs, library, character.only = T)
 
-setupKnitr()
+data_location <- here::here("Paper/sampledata")
 @
 
 \title{Longitudinal Study of Athletic Shoe Wear}
@@ -93,19 +93,6 @@ In this section we will provide a brief description of each collection method, i
 \subsection{Pressure Scanner}
 Pressure scans were recorded during the initial participant visit (that is, when participants were first issued shoes), using a Tekscan HR Mat scanner with a sensor resolution of $0.5 \text{cm}^2$ and temporal resolution of 185 Hz\footnote{\url{https://www.tekscan.com/products-solutions/systems/hr-mat}. Cached version available at \url{https://webcache.googleusercontent.com/search?q=cache:BZBl2bvx-H4J:https://www.tekscan.com/products-solutions/systems/hr-mat+}}. Participants walked across the mat 12 times, resulting in 3 scans of each foot while wearing a shoe, and 3 scans of each foot while wearing only a thin disposible sock. Videos and still images of the pressure distribution were saved; frames from the video and still images are shown in Figures \ref{fig:pressurescanner-video} and \ref{fig:pressurescanner-static}, respectively.
 
-<<data-setup, include = F>>=
-shoe_info <- readr::read_csv(here::here("Clean_Data/shoe-info.csv"))
-
-lss_location <- if (Sys.info()[["sysname"]] == "Linux") {
-  here::here("Paper/sampledata")
-} else {
-  # Need to see what it is on Windows...
-  NA
-}
-
-participant_ids <- c("005", "007")
-@
-
 <<pressurescanner-data-function, include = F>>=
 read_csv_video <- function(file) {
   file_lines <- readLines(file)
@@ -136,7 +123,7 @@ read_csv_video <- function(file) {
 
 <<pressurescanner-video, fig.cap = "4 equally spaced frames from the video of participants 005 and 007 walking across the pressure scanner, with and without shoes.", echo = F, fig.width = 8, fig.height = 4>>=
 pressure_videos <- tibble(
-  file = list.files(lss_location, pattern = "^00[57]\\d{3}L_\\d{8}_1_[16]_1_.*\\.csv", full.names = T),
+  file = list.files(data_location, pattern = "^00[57]\\d{3}L_\\d{8}_1_[16]_1_.*\\.csv", full.names = T),
   frame_data = purrr::map(file, read_csv_video)
 ) %>%
   mutate(
@@ -186,7 +173,7 @@ ggplot(plot_pressure_data, aes(x = row, y = col, fill = value + 1)) +
 
 <<pressurescanner-static, fig.cap = "Still images of pressure scans from participants 005 and 007, with and without shoes", fig.width = 8, fig.height = 4>>=
 pressure_stills <- tibble(
-  file = list.files(lss_location, pattern = "^00[57]\\d{3}L_\\d{8}_1_[27]_1_.*\\.csv", full.names = T),
+  file = list.files(data_location, pattern = "^00[57]\\d{3}L_\\d{8}_1_[27]_1_.*\\.csv", full.names = T),
   frame_data = purrr::map(file, read_csv_video)
 ) %>%
   mutate(
@@ -239,7 +226,7 @@ At each measurement point throughout the study, shoes were imaged using a two-di
 In order to image the shoes using the EverOS scanner, lab assistants wore the participants' shoes while traversing the scanner in two different ways: normal walking, and a more stationary ``detail" print. Examples of these images are shown in \autoref{fig:everos-imgs}. Two replicates of each shoe and image type combination were taken in order to facilitate estimation of variability in print features \citep{shorInherentVariationMultiple2018}, for a total of 8 2D scans per measurement point.
 
 <<everos-imgs, fig.cap = "Digital images taken using the EverOS v2.0 scanner. Images are from the left shoes of participants 005 and 007, taken during the initial visit (before participants had worn the shoes).", cache.lazy = FALSE, fig.width = 8, fig.height = 8/5*2, out.width = "\\textwidth">>=
-everos_imgs <- list.files(lss_location, pattern = "^00[57]\\d{3}L_2017\\d{4}_2_[12]_1_.*", full.names = T)
+everos_imgs <- list.files(data_location, pattern = "^00[57]\\d{3}L_2017\\d{4}_2_[12]_1_.*", full.names = T)
 
 raster_save_location <- here::here("Paper/raster_data_plot.RDS")
 if (file.exists(raster_save_location)) {
@@ -302,7 +289,7 @@ $\vcenter{\hbox{\includegraphics[width=.49\textwidth]{figure/3d_shoes_Participan
 <<3d-scans, dev="png", eval = F>>=
 scan_3d <-
   tibble(
-    file = list.files(lss_location, pattern = "^00[57]\\d{3}L_\\d{8}_3_[12]_1_.*", full.names = T),
+    file = list.files(data_location, pattern = "^00[57]\\d{3}L_\\d{8}_3_[12]_1_.*", full.names = T),
     participant = str_extract(file, "005|007"),
     type = str_extract(file, "3_[12]_1") %>%
       str_remove("^3[[:punct:]]") %>%
