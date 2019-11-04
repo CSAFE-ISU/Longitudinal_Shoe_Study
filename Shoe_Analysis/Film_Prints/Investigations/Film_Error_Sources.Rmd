@@ -1,0 +1,102 @@
+---
+title: "Sources of Error in Film Print Images"
+author: "Susan Vanderplas"
+date: "11/4/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+library(EBImage)
+library(ShoeScrubR)
+library(tidyverse)
+```
+
+```{r img-setup, include = F} 
+img_output_dir <- "~/Projects/CSAFE/2018_Longitudinal_Shoe_Project/Shoe_Analysis/Film_Prints/FFT_aligned/"
+lss_dir <- "/lss/research/csafe-shoeprints/ShoeImagingPermanent"
+
+# For a bunch of images...
+full_imglist <- list.files("/lss/research/csafe-shoeprints/ShoeImagingPermanent/",
+                           pattern = "00[4-9]\\d{3}[L]_\\d{8}_5_._1_.*_.*_.*", full.names = T)
+dir <- "/tmp/film-prints"
+if (!dir.exists(dir)) dir.create(dir)
+
+file.copy(full_imglist, file.path(dir, basename(full_imglist)))
+imglist <- file.path(dir, basename(full_imglist))
+
+
+blank_imglist <- list.files(".", pattern = ".tiff", full.names = T)
+```
+
+```{r read-blank-imgs}
+
+blank_imgs <- tibble(
+  file = blank_imglist, 
+  img = purrr::map(file, readImage)
+  )
+
+mag <- function(x) Re(x * Conj(x))
+
+blank_imgs <- blank_imgs %>% 
+  mutate(
+    img_hanning = ShoeScrubR:::hanning_list(img),
+    fourier = ShoeScrubR:::fft_list(img_hanning)
+  )
+
+```
+
+## Motivation
+
+Several different image alignment algorithms have been developed to align film print images, using  custom template alignment, prebuilt solutions such as `RNiftyReg`, and implementations of Fast Fourier Transform based alignment. In each alignment solution, noticeable deficiencies exist that seem to be relatively systematic. 
+
+An investigation of misaligned images for the FFT-based solution revealed a previously unnoticed artifact in the data: when the images were equalized using histogram equalization, the pattern of the background of the film is also visible. Many of the misalignments appeared to be at least partially due to alignment of the background pattern rather than the shoe print. 
+
+<img src='../FFT_aligned/FFT_Aligned_Equalized_004L_2018-02-28.png' width = '49%'/>
+<img src='../FFT_aligned/FFT_Aligned_Equalized_004L_2018-04-11.png' width = '49%'/>
+
+<img src='../FFT_aligned/FFT_Aligned_Equalized_005L_2018-01-24.png' width = '49%'/>
+<img src='../FFT_aligned/FFT_Aligned_Equalized_005L_2018-04-11.png' width = '49%'/>
+
+<img src='../FFT_aligned/FFT_Aligned_Equalized_006L_2018-01-24.png' width = '49%'/>
+<img src='../FFT_aligned/FFT_Aligned_Equalized_006L_2018-02-28.png' width = '49%'/>
+
+<img src='../FFT_aligned/FFT_Aligned_Equalized_008L_2018-01-24.png' width = '49%'/>
+<img src='../FFT_aligned/FFT_Aligned_Equalized_008L_2018-02-28.png' width = '49%'/>
+
+<img src='../FFT_aligned/FFT_Aligned_Equalized_009L_2018-01-24.png' width = '49%'/>
+<img src='../FFT_aligned/FFT_Aligned_Equalized_009L_2018-04-11.png' width = '49%'/>
+
+Notice that the contrast-equalized images often show areas of black or dark grey (indicating agreement) which correspond to the background pattern rather than the shoe pattern. Often, there appears to be a compromise between the alignment of the shoe print and the alignment of the background, resulting in partial overlap of the background pattern and partial overlap of the shoe pattern. This is particularly evident for Shoe 004L, 006L, and 009L, and seems to be more of an issue when one or both of the prints are extremely light (thus, the print magnitude is nearly equivalent to that of the background). In other cases (e.g. Shoe 005L) alignment seems to be partially based on the location of the label (which is also on the back of the paper adhered to the sticky film). 
+
+This indicates that in many cases the alignment algorithm is working, but is not working on the features of the image we would prefer it to work on (that is, the shoe print itself). It is at this point necessary to construct a model of the different features which may occur in the image and see whether it is possible to separate these features out successfully.
+
+## Image Components
+
+A scanned film-and-powder print, as taken during the Longitudinal Shoe Study, consists of the following potential pieces of signal and noise:
+
+- The powder print of the shoe (e.g. powder adhered to the film surface)
+- Additional powder incidentally adhered to the film surface (powder noise), including stray powder distributed randomly as well as fingerprints
+- Additional debris incidentally adhered to the film surface (rocks, sand, etc.) and the resulting air bubbles in the film-background adhesion
+
+- Film background pattern, visible through the film and the waxy layer between the film and the paper backing
+- Print label adhered to the film background, visible through the film, the waxy layer, and the paper backing itself
+
+- Edge effects from the scanner auto-correction software
+- Scanner noise - debris on the scanner surface, pixels within the scanner sensor which may be more or less sensitive (or entirely dead). 
+
+These different sources of information can be grouped into several different broad "terms":
+
+- $A :=$ Signal due to objects adhered to the adhesive film (shoe print + powder noise + debris)
+- $B :=$ Signal present in or adhered to the film backing (film background pattern, print label)
+- $S :=$ Signal occurring as a result of the scanner hardware or software (edge effects from scanner processing software, scanner image sensor noise, debris on the scanner surface)
+
+We can then model the entire image, $I$, as a linear ^[The effect may not be in fact linear due to post-processing by the scanner and/or preprocessing done before the image is analyzed statistically. These processing methods may include various equalization or normalization algorithms that would introduce dependencies between the values of these terms (e.g. transforming $I$ so that the pixels fall between 0 and 1, thus introducing dependencies between the values of $A$, $B$, $S$). For now, let's just pretend that we're living in a nice world where a linear model is reasonable.] combination of these effects
+
+$$I = \beta_0 + \beta_1 A + \beta_2 B + \beta_3 S + \epsilon$$
+
+
+
+
+
+
