@@ -18,7 +18,7 @@ blank_imgs <- tibble(
     fourier = ShoeScrubR:::fft_list(img_hanning)
   )
 
-shoe <- readImage(full_imglist[[1]])
+shoe <- readImage(full_imglist[[68]])
 shoe_fft <- ShoeScrubR:::fft_list(ShoeScrubR:::hanning_list(list(shoe)))
 
 
@@ -99,7 +99,7 @@ compute_offset <- function(df, eps = c(5, 5)) { # eps in px
 
 
   ydel <- ydists %>% filter(dist_mult > 0) %>%
-    summarize(ydel = mean(dist/dist_mult_rd)) %>% as.numeric() %>% round()
+    summarize(ydel = median(dist/dist_mult_rd)) %>% as.numeric() %>% round()
 
   # get point closest to origin
   nmat <- as.matrix(df[,2:3])
@@ -108,6 +108,9 @@ compute_offset <- function(df, eps = c(5, 5)) { # eps in px
   list(dx = xdel, dy = ydel, start = closest_point)
 }
 
+
+## Background isn't quite a complete tesselation - a few pixels off over time means
+## constructing the background pattern is not going to work out that well
 bkgd_pattern <- bkgd_offset <- readImage("film_mask_multi_200dpi.tiff")
 bkgd_pattern <- bkgd_pattern/sum(bkgd_pattern)
 bkgd_offset_big <- dilate(bkgd_offset, makeBrush(7, "disc"))
@@ -118,15 +121,32 @@ bkgd_offset_filt <- bkgd_offset - (1 - bkgd_offset_big)
 bkgd_offset_filt[bkgd_offset_filt == 1] <- 1/sum(bkgd_offset_filt == 1)
 bkgd_offset_filt[bkgd_offset_filt == -1] <- -1/sum(bkgd_offset_filt == -1)
 
-match_pattern(1 - equalize(shoe), flop(bkgd_offset_filt))
-
-match_pattern(bkgd_pattern, readImage("film_mask_minimal_200dpi.tiff"))
-
+regions <- match_pattern(1 - equalize(shoe), flop(bkgd_offset_filt))
 plot(1 - equalize(shoe))
+points(regions$m.cx, regions$m.cy, col = "red", cex = 3)
+
+regions <- match_pattern(bkgd_pattern, readImage("film_mask_minimal_200dpi.tiff"))
+
+plot(normalize(bkgd_pattern))
+points(regions$m.cx, regions$m.cy, col = "red", cex = 3)
+
+## Instead, iteratively remove each R from the image one-by-one.
 
 
+mask_pad <- readImage("bkgd_big_mask_200dpi.tiff") %>%
+  flop() %>%
+  dilate(kern = makeBrush(3, "disc"))
+mask_pad <- .4 * mask_pad * hanning_2d(dim(mask_pad))
 
-plot(regions$m.cx, regions$m.cy)
+img <- 1 - t(readImage("aligned_with_mask/clean_img/001351R_20180124_5_1_1_csafe_hdzwart_Martin_Kruse.tif"))
+img <- img * hanning_2d(dim(img), widen_root = c(2,2))
+img <- img %>%
+  img_pad_to_size(dim(mask_pad), value = 0)
 
+res <- fft_align(img, mask_pad)
 
-get_dists <- filter2(bkgd_pattern, readImage("film_mask_minimal_200dpi.tiff"), 0)
+par(mfrow = c(1, 3))
+plot(img)
+plot(mask_pad)
+ShoeScrubR:::plot_imlist(res$res)
+
