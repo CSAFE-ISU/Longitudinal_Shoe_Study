@@ -60,7 +60,7 @@ In order to address the concerns identified by the PCAST and NRC reports, we hav
 We selected two common models of athletic shoes: Adidas Seeley and Nike Winflo 4; by controlling the shoe models available, we can provide several sets of data for each size/model combination. In addition, the two shoes have different outsole materials: Adidas Seeley shoes have a hard rubber sole, while Nike Winflo shoes have a much softer rubber and foam construction. We expected that these shoes would accumulate RACs at different rates based on material differences.
 
 <<sizes, echo = F, include = T, render='asis'>>=
-shoe_model_data <- read.xlsx(here("shoeprints data.xlsx")) %>%
+shoe_model_data <- read.xlsx(file.path(data_location, "../../shoeprints data.xlsx")) %>%
   select(1, 2, 4:5, 11) %>%
   set_names(c("ID", "cohort", "modelColor", "size", "mw")) %>%
   mutate(model = str_extract(modelColor, "Nike|Adidas") %>%
@@ -121,7 +121,7 @@ read_csv_video <- function(file) {
 @
 
 
-<<pressurescanner-video, fig.cap = "4 equally spaced frames from the video of participants 005 and 007 walking across the pressure scanner, with and without shoes.", echo = F, fig.width = 8, fig.height = 4>>=
+<<pressurescanner-video, fig.cap = "4 equally spaced frames from the video of participants 005 and 007 walking across the pressure scanner, with and without shoes.", echo = F, fig.width = 8, fig.height = 4, cache = F>>=
 pressure_videos <- tibble(
   file = list.files(data_location, pattern = "^00[57]\\d{3}L_\\d{8}_1_[16]_1_.*\\.csv", full.names = T),
   frame_data = purrr::map(file, read_csv_video)
@@ -185,7 +185,7 @@ pressure_stills <- tibble(
   )
 
 plot_pressure_stills <- pressure_stills %>%
-  unnest() %>%
+  unnest(frame_data) %>%
   group_by(participant, type, row) %>%
   mutate(row_total = sum(value)) %>%
   group_by(participant, type, col) %>%
@@ -286,7 +286,7 @@ $\vcenter{\hbox{\includegraphics[width=.49\textwidth]{figure/3d_shoes_Participan
 \caption{Handheld and turntable scans from the final measurement point for the left shoes of participants 005 and 007. The turntable scans have a much higher resolution compared to the handheld scans.\label{fig:3dscans}}
 \end{figure}
 
-<<3d-scans, dev="png", eval = F>>=
+<<3d-scans, dev="png", eval = FALSE>>=
 scan_3d <-
   tibble(
     file = list.files(data_location, pattern = "^00[57]\\d{3}L_\\d{8}_3_[12]_1_.*", full.names = T),
@@ -436,13 +436,17 @@ All of the methods used thus far to record shoe sole details do not address the 
 All of the data described in the previous section is publicly available at the CSAFE Forensic Science Data Portal (\url{https://forensicstats.org/data/}), along with relevant metadata (participant weight, number of steps at each data collection point, surfaces walked across) and detailed data collection procedures describing exactly how the data was collected and any changes made in the data collection procedures during the experiment (such as the addition of the square rulers in photographs). Additional bulk downloads of the collection are available at \url{http://doi.org/10.25380/iastate.c.4477757}. The Data Portal site links to a visual database which can be used to select subsets of the data described in this paper for specific analysis projects.
 
 
+\section{Discussion}
+The data described in this paper are well beyond the scope of any currently available, free, public research database of shoe prints. We envision many different potential analyses which could be conducted using these data, including examinations of the power of methods to capture RACs and other data features, comparisons of wear pattern development over time (with corresponding analysis of pressure individual pressure pattern distributions), studies of the effects of different kinematics using the paper prints, and many other options. In addition, we hope that this data will be one resource for conducting white and black-box examiner studies, as there are multiple different shoes of the same size and type in this data set, providing the opportunity to examine comparisons within shoe models. This study is not intended to provide material which exactly emulates case work: we expect it will be far more useful to the research community than to examiners directly, because the study's design explores so many different factors of interest in footwear research.
 
-\section{Analysis?}
-% Some sort of exploratory analysis
+While the data described here are extensive and well beyond the scope of any currently available public database of shoe prints, we did encounter some challenges and limitations during the study which may impact the results. While we will endeavor to correct these issues during follow-up studies, the data as collected consist of snapshots of the best procedures we had for data collection at the time. In several cases, we discovered during the course of the experiment better or more reliable methods of capturing the data, leading to changes in collection procedures. The collection procedures and any changes to those procedures are available online (\url{https://github.com/CSAFE-ISU/Longitudinal\_Shoe\_Study}); notable changes include modifications of the Digital Camera procedure to include an L-shaped ruler at the precise height of the shoe sole as well as a background which could be more easily identified and isolated from the shoe sole. At the end of the study, we discovered that the 3D scanner included a turntable which could capture much higher resolution scans; as a result, the final 3D scans are of considerably higher resolution than the initial scans. The film used to collect the film and powder prints is of two different varieties (provided by the same supplier) with different patterns of the backing paper and a slightly different tint. In many cases, these changes only peripherally effect the data which was recorded.
 
+Due to logistical limitations, the data captured while the shoe was being worn (2D scanner, film and powder, vinyl and powder, paper and powder) could not be captured using the participant and primary wearer of the shoe; instead, in these cases, research assistants wore the shoes while data was recorded. While this made subject recruitment considerably easier and decreased the time committment required of participants significantly, this decision did create some additional artifacts in the data: due to variation in weight and height of the research assistants, the prints were not recorded under the exact same conditions at each time point. If we were to repeat this experiment subject to the same limitations on participant time, we would at least control for the variability by ensuring that the same research assistants wore the same shoes during data collection at each time point.
+
+There are obviously additional limitations to this data introduced by the inclusion of only two makes and models of athletic shoes. Both shoes have highly repetitive pattern elements which make development of automatic analysis algorithms extremely challenging. The repetitive pattern elements consistently result in mis-alignments when automatic alignment algorithms are applied to multiple images of the same shoe, even at the same timepoint. While we have begun to analyze the data ourselves and plan to release an R software package designed to facilitate the preprocessing of the data, that work is ongoing and will be reserved for a future publication. It is more important, in our view, to make the data available to the community quickly so that other researchers can begin to explore and analyze the data. The use of two makes and models of shoes also makes research into similarity score testing using this database deep (in the number of potential challenging comparisons) but somewhat limited in scope. While there are many comparisons to be made between shoes worn by different individuals, any conclusions made based on data from this study alone may not generalize  well to the wider population of athletic shoes or more generally, all shoes.
 
 \section{Applications and Future Work}
-
+We are planning several follow-up studies which will expand the database and leverage the methodological testing from this experiment to produce more precise results. We hope to collect data for a supplemental database containing  shoes with different brands, patterns, and manufacturing methods/material composition. In addition, we are in the process of testing procedures for recording data similar to that which might be found at a crime scene, including simulated prints in dust as well as impressions in dirt and mud and casts of those impressions. We plan to use the shoes from this study to create prints which can then be used for more realistic examiner testing.
 
 
 \bibliography{refs}
