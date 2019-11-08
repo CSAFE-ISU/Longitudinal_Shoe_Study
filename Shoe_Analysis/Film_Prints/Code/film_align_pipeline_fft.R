@@ -10,7 +10,7 @@ lss_dir <- "/lss/research/csafe-shoeprints/ShoeImagingPermanent"
 # For a bunch of images...
 full_imglist <- list.files(lss_dir,
                            pattern = "00[4-9]\\d{3}[L]_\\d{8}_5_._1_.*_.*_.*", full.names = T)
-dir <- "Shoe_Analysis/Film_Prints/aligned_with_mask/image"
+dir <- "aligned_with_mask/image"
 # if (!dir.exists(dir)) dir.create(dir)
 #
 # file.copy(full_imglist, file.path(dir, basename(full_imglist)))
@@ -39,7 +39,7 @@ scan_info <- tibble(
     im_dim = purrr::map(img, dim)
   ) %>%
   mutate(
-    clean_file = file.path("Shoe_Analysis/Film_Prints/aligned_with_mask/clean_img", basename(file)),
+    clean_file = file.path("aligned_with_mask/clean_img", basename(file)),
     clean =  purrr::map(clean_file, EBImage::readImage, all = F),
     clean = purrr::map(clean, EBImage::channel, "luminance"),
     clean = purrr::map(clean, t)
@@ -81,7 +81,7 @@ par(mfrow = c(2, 9))
 purrr::walk(align_scan_data$fix_align, plot_imlist)
 
 sample_dist <- function(imlist, N = 1) {
-  fcn <- function(imlist) sum((sample(imlist[[1]], size = length(imlist[[1]])) - imlist[[2]])^2)
+  fcn <- function(imlist) mean((sample(imlist[[1]], size = length(imlist[[1]])) - imlist[[2]])^2)
   replicate(N, fcn(imlist), simplify = "vector")
 }
 
@@ -114,14 +114,16 @@ pct_corresp <- function(imlist, middle_pct = c(1/2, 2/3), show_plot = T, equaliz
 
   if (show_plot) plot(equalize(normalize(sq_diff_img)))
 
-  tibble(image_sq_diff = mean(sq_diff_img), ordered_ssq = ordered_ssq, random_ssq = random_ssq)
+  tibble(image_sq_diff = mean(sq_diff_img), ordered_ssq = ordered_ssq, random_ssq = random_ssq, sqdiffimg = sq_diff_img)
 }
 
 par(mfrow = c(2, 9))
 res <- purrr::map_df(align_scan_data$fix_align, pct_corresp, show_plot = T, equalize = F)
 res <- bind_cols(align_scan_data[,1:5], res)
 res <- res %>%
-  mutate(shoe_date = paste0(ShoeID, Shoe_foot, " ", date))
+  mutate(shoe_date = paste0(ShoeID, Shoe_foot, " ", date),
+         shoe_date = factor(shoe_date, levels = rev(shoe_date), ordered = T)) %>%
+  mutate(prop = (image_sq_diff - ordered_ssq)/(random_ssq - ordered_ssq))
 
 ggplot(data = res) +
   geom_segment(aes(x = ordered_ssq, xend = random_ssq, y = shoe_date, yend = shoe_date)) +
