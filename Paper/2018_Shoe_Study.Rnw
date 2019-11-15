@@ -276,7 +276,7 @@ ggplot(data = raster_data_plot, aes(x = row, y = col, fill = value)) +
 \subsection{3D Digital Scanner}
 At each measurement point, shoes were also scanned with a three-dimensional scanner; specifically, the EinScan-Pro+ scanner\footnote{\url{https://www.einscan.com/handheld-3d-scanner/einscan-pro-plus/}}. The sole of each shoe was scanned using ``Handheld Rapid Scan" mode from approximately 12" above the shoe sole to produce a STL file characterizing the surface. Two replicates from each shoe were recorded. Additionally, an additional replicate was recorded for 25 selected participants, resulting in a total of 3 replicates in the extended subset.
 
-At the conclusion of the study, the shoe soles were scanned using the scanner's auxiliary turntable, which produces much higher resolution scans. Low and high resolution scans of the left shoes of participants 005 and 007 are shown in \autoref{fig:3dscans}. \svp{If we get this thing back from reviewers saying collect the rest of the data with turntable, I'm going to strangle something.}
+At the conclusion of the study, the shoe soles were scanned using the scanner's auxiliary turntable, which produces much higher resolution scans. Low and high resolution scans of the left shoes of participants 005 and 007 are shown in \autoref{fig:3dscans}.
 
 \begin{figure}
 $\vcenter{\hbox{\includegraphics[width=.49\textwidth]{figure/3d_shoes_Participant_005_Handheld_scan.png}}}$
