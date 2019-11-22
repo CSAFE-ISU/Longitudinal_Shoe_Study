@@ -39,11 +39,11 @@ Contains the scans of the shoe prints taken with the Powder and Adhesive Film me
   - ID# is a 6 digit number followed by {RL} indicating right (R), or left (L) shoe. The first three digits are the shoe ID and the second three digits are a checksum.
   - Date, in yyyymmdd format, indicating the date the data was collected (not the date the shoes were turned in for data collection).
   - Method_Image_Replicate: these fields are hierarchically determined - the meaning of the values for image and replicate depend on the method.
-  - Method: Film and Powder = 5
-  - Image:
-    1. Detail
-    2. Press
-  - Replicate: one replicate per shoe
+    - Method: Film and Powder = 5
+    - Image:
+      1. Detail
+      2. Press
+    - Replicate: one replicate per shoe
   - ID of technician(s): Some methods require that one individual wear the shoe, another individual assists with the data collection, and (in some cases) a third individual digitizes the information. In those cases names are separated by underscores.
 Also contains 3 separate comma separated data files:
   - Shoe-info.csv, which contains information relating to the specific shoe (size, model, color, wearer characteristics)

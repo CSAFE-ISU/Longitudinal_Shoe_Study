@@ -1,4 +1,4 @@
-DATA TITLE: Longitudinal Shoe Study: Film and Powder Images
+DATA TITLE: Longitudinal Shoe Study: 2D Scan Images
 PROJECT TITLE: CSAFE Longitudinal Shoe Study
 
 == AUTHORS ==
@@ -39,11 +39,11 @@ Contains the scans of the shoe prints taken with the 2D Digital scan methodology
   - ID# is a 6 digit number followed by {RL} indicating right (R), or left (L) shoe. The first three digits are the shoe ID and the second three digits are a checksum.
   - Date, in yyyymmdd format, indicating the date the data was collected (not the date the shoes were turned in for data collection).
   - Method_Image_Replicate: these fields are hierarchically determined - the meaning of the values for image and replicate depend on the method.
-  - Method: 2 = 2D Scanner
-  - Image:
-    - 1 = Detailed scan
-    - 2 = Walking scan
-  - Replicate: two per image type
+    - Method: 2 = 2D Scanner
+    - Image:
+      - 1 = Detailed scan
+      - 2 = Walking scan
+    - Replicate: two per image type
   - ID of technician(s): Some methods require that one individual wear the shoe, another individual assists with the data collection, and (in some cases) a third individual digitizes the information. In those cases names are separated by underscores.
 Also contains 3 separate comma separated data files:
   - Shoe-info.csv, which contains information relating to the specific shoe (size, model, color, wearer characteristics)

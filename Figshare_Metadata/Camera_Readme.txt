@@ -1,4 +1,4 @@
-DATA TITLE: Longitudinal Shoe Study: Vinyl Print Photos
+DATA TITLE: Longitudinal Shoe Study: Digital Photos of Shoe Soles
 PROJECT TITLE: CSAFE Longitudinal Shoe Study
 
 == AUTHORS ==
@@ -26,24 +26,23 @@ Github repository for documentation: https://github.com/CSAFE-ISU/Longitudinal_S
 
 
 == Overview ==
-Scans of shoe prints obtained following the CSAFE powder print on vinyl procedure.
+Digital photographs of shoe soles obtained following the CSAFE Digital Camera data collection procedure.
 
 == FILE DIRECTORY ==
 ----- FILE LIST-----
 - Method_Image_Replicate_Codebook.csv: Contains descriptions of the metadata encoded in each file name.
 - Variable_Codebook.csv: Contains descriptions of the auxiliary data collected along with the images (survey results, participant height and weight, number of steps, etc.)
 
-- CrimeScenePhotos.zip
-Contains the scans of the shoe prints taken with the Vinyl Print/Digital Camera methodology. Images are named with respect to the following convention:
+- CameraImages.zip
+Contains the scans of the shoe prints taken with the 2D Digital scan methodology. Images are named with respect to the following convention:
   `{ID#}_{Date}_{Method}_{Image#}_{Rep#}_{ID of technician(s)}` where:
   - ID# is a 6 digit number followed by {RL} indicating right (R), or left (L) shoe. The first three digits are the shoe ID and the second three digits are a checksum.
   - Date, in yyyymmdd format, indicating the date the data was collected (not the date the shoes were turned in for data collection).
   - Method_Image_Replicate: these fields are hierarchically determined - the meaning of the values for image and replicate depend on the method.
-    - Method: 2 = 2D Scanner
-    - Image: 1 image each
-    - Replicate: 2 reps per shoe
+    - Method: Digital Camera = 4
+    - Image: two images per shoe
+    - Replicate: one replicate per shoe/image
   - ID of technician(s): Some methods require that one individual wear the shoe, another individual assists with the data collection, and (in some cases) a third individual digitizes the information. In those cases names are separated by underscores.
-
 Also contains 3 separate comma separated data files:
   - Shoe-info.csv, which contains information relating to the specific shoe (size, model, color, wearer characteristics)
   - Visit-info.csv, which contains information relating to the specific data collection visit (e.g. survey answers, pedometer readings)
@@ -56,8 +55,7 @@ The study consists of 160 pairs of shoes:
   - Four possible sizes for each model
 Each pair of shoes was worn for at least 10,000 steps per week over a 6-month period, with multiple measurements of the shoe soles taken initially and during three check-in periods spaced at approximately 5 week intervals.
 
-Prints and measurements for this data set were taken using the following equipment:  Digital Camera (Print on Vinyl). This method is documented in the CSAFE Longitudinal Shoe Study Collection Procedures Collection (DOI: http://doi.org/10.25380/iastate.8016341), specifically the following documents:
-  - Paper_Vinyl_Prints.pdf
+Prints and measurements for this data set were taken using the following equipment: DSLR camera. This method is documented in the CSAFE Longitudinal Shoe Study Collection Procedures Collection (DOI: http://doi.org/10.25380/iastate.8016341), specifically the following documents:
   - Digital_Camera.pdf
 
 

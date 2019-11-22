@@ -1,0 +1,24 @@
+A set of documents describing the collection procedures for a longitudinal study of 160 pairs of shoes (Nike Winflo 4 or Adidas Seeley) worn for approximately 6 months, with data collected initially and during 3 check-in periods.
+
+## Collection Method Documentation
+
+- General\_Data\_Collection\_Procedure.pdf: The general data collection procedures were used in the collection of initial data about the unworn shoes and the study participants as well as during the study. The baseline procedure documents the collection procedures; an additional document describes the changes made to these procedures over the course of the study.
+- General\_Data\_Collection\_Procedure\_Changes.pdf: Description of changes made to the procedures during the study to improve image quality and reduce equipment malfunctions.
+
+In addition, single-procedure files are provided for each collection method:
+
+- Tekscan\_Mat\_Scanner.pdf: Procedures for collecting data using the Tekscan Mat Scanner (initial visit only)
+- 2D\_Digital\_Scanner\_Everos.pdf: Procedures for collecting data using the Everspry EverOS digital scanner
+- 3DScanner\_Handheld.pdf: Procedures for collecting 3D data about the surface of the shoe sole using a handheld EinScan Pro scanner. This method was used for the data collection during the original study.
+- 3DScanner\_Turntable.pdf: Procedures for collecting high-resolution 3D data about the shoe sole surface using a turntable and the EinScan Pro scanner. This method was used for data collection after the study was complete.
+- Digital\_Camera.pdf: Procedures for photographing the shoe tread using a digital camera
+- Film\_Powder\_Print.pdf: Procedures for collecting shoeprints using adhesive film and fingerprint powder.
+- Paper\_Vinyl\_Prints.pdf: Procedure for collecting shoeprints using fingerprint powder and white paper.
+- Scanning\_Film\_Paper\_Prints.pdf: Procedure for scanning in prints using fingerprint powder and paper or adhesive film.
+- Vinyl\_Photos.pdf: Procedure for taking photographs of powder prints on vinyl surfaces using oblique lighting.
+
+Additional methods were developed for follow up studies; procedures were validated during pilot data collection but have not been used in full study at this time:
+
+- Phase2\_Mud\_Impressions.pdf: Procedure for collection of shoe prints in mud
+- Phase2\_Casting.pdf: Procedure for casting of shoe prints in dirt and mud using dental stone.
+- Phase2\_Dust\_Photography\_Lifting.pdf: Procedure for collection of shoe prints in dust using photography as well as lifting with adhesive film.

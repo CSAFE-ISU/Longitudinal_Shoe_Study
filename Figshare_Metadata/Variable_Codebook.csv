@@ -1,0 +1,65 @@
+File(s),Variable label,Variable name,Measurement unit,Allowed values,Definition,Description
+Image-info.csv,File Name,File Name,text,,,Name of the file
+Image-info.csv,Scan Method,Equipment used to record data,text,"2D Scanner, 3D Scanner, Camera, Crime Scene, Paper, Film, Pressure Scanner",,"Method used to record or acquire the shoe data. 2D Scanner images were recorded using the  EverOS EverSpry; 3D Scanner images were recorded using the EinScan Pro+ 3D scanner, Camera prints were taken using a Canon DSLR, Crime Scene prints are photographs of prints in fingerprint powder on vinyl, paper and film prints are fingerprint powder on paper and film, respectively, digitized using a digital scanner."
+Image-info.csv,Image Number,Procedure used to record image,numeric,43469,,"For each method, different procedures were used to record prints. See Sheet 2"
+Image-info.csv,Replicate Number,"Image replicate number
+",numeric,43477,,"For each method, different numbers of replicates were taken; for Matscan data, this field indicates the conditions under which the scan was recorded"
+Image-info.csv,Visit Number,Visit number,"numeric
+",0-3,,"Initial visit is recorded as 0, subsequent visits are recorded as 1, 2, and 3 (if applicable)."
+Image-info.csv,Shoe Number,Shoe ID Number,numeric,000-160,,3 digit shoe number
+Image-info.csv,Shoe Make/Model,Shoe Make/Model,text,Nike/Winflo 4 or Adidas/Seeley,,Make and model of the shoe
+Image-info.csv,Shoe Size,Shoe Size,text,"(7, 7.5, 8, 8.5) W, (8, 8.5, 10, 10.5) M
+",,"Numeric size of the shoe plus W or M to indicate whether the size is according to women's or men's sizing
+"
+Image-info.csv,Worker Names,"Names of individuals involved in recording the data
+",text,,,"some values include csafe_ - this prefix should be ignored. When multiple workers were involved in recording the print (e.g. wearing the shoe, holding the film, scanning the film) their names are separated by underscores."
+Image-info.csv,Shoe Color,Color of the shoe,text,,,Color of the shoe model as ordered
+Shoe-info.csv,Shoe Number,Shoe ID Number,numeric,000-160,,3 digit shoe number
+Shoe-info.csv,Wearer Number,Wearer ID Number,numeric,000-160,,3 digit identifier for the individual wearing the shoe. Some individuals wore both models of shoe and thus appear twice.
+Shoe-info.csv,Weight,Wearer's weight at initial visit,lbs,,,Self-reported weight in pounds at the beginning of the experiment
+Shoe-info.csv,Height,Wearer's height in feet,feet,,,"Self reported height in feet at the beginning of the experiment. Where reports were made in feet + inches or meters, the values have been converted."
+Visit-info.csv,Shoe Number,Shoe ID Number,numeric,000-160,,3 digit shoe number
+Visit-info.csv,Visit Drop of Number,Visit number,"numeric
+",0-3,,"Initial visit is recorded as 0, subsequent visits are recorded as 1, 2, and 3 (if applicable)."
+Visit-info.csv,Engaged in Activities,A list of activities participants engaged in between successive visits,text,"Sports activities, Walking, Dancing, Climbing, Hiking, Biking",,Blank for initial visit
+Visit-info.csv,Hours spent per Week,An estimate of the number of hours spent on the reported activities each week,hours per week,"1-3, 3-6, more than 6",,"Categorized by an experimenter based on participant responses
+"
+Visit-info.csv,Anticipated Participation,"participant's initial estimate of amount of time spent wearing the shoes
+",text,"All the time, 4-6 times a week, 1-3 times a week",,"Response to the initial participation survey question ""How often do you anticipate that you will be able to wear the study shoes during the next six weeks?"
+Visit-info.csv,Number of Steps,Number of steps since last visit,"numeric
+","0-Inf
+",,Steps recorded using a pedometer attached to the shoe. Values may be somewhat inaccurate if the pedometer was accidentally reset. This number accounts for rollovers (recorded in the notes field). Values are cumulative over the study period.
+Visit-info.csv,Notes,"Notes about coding of variables in the file
+",text,,,Primarily contains informations about pedometer resets and rollovers. 
+Visit-info.csv,Hours Worn per Week,Participant estimates of hours wearing the shoes each week,text,,,"Information provided by the participant and directly transcribed from the surveys. Inconsistently formatted.
+"
+Visit-info.csv,Hours Worn per Week Range10,Hours worn per week as a range,text,"NA, blank, 0-10, 11-20, 21-30, 31-40, 41-50, 51-60, 61-70, 71-80",,"Experimenter coded interpretation of participant-reported hours worn per week. NA indicates that the participant's response could not be coerced into a range of 10 hours, blank indicates that the participant did not report any value at all."
+Visit-info.csv,Percent Time in Study Shoes of Total Time Wearing Shoes,,percentage,"0-20%, 20-40%, 40-60%, 60-80%, 80-100%, NA, blank",,"Participant estimate of the percentage of time wearing the study shoes, out of the total time spent wearing shoes."
+Visit-info.csv,Grassy Surfaces,"proportion of time wearing study shoes on grassy surfaces (participant reported)
+",text,,,"Participant reported values for the proportion of time wearing the study shoes on grassy surfaces. May include percentages mixed in with proportions.
+"
+Visit-info.csv,Grassy Surfaces Clean,cleaned up percentage of time wearing shoes on grassy surfaces,numeric,"-50 (indicates binary yes response), 0-100",,"Accounting for all other surface type values, the percentage of time walking across grassy surfaces. "
+Visit-info.csv,Indoor Surfaces,proportion of time wearing study shoes on indoor surfaces as recorded by the participant,text,,,"Participant reported values for the proportion of time wearing the study shoes on indoor surfaces. May include percentages mixed in with proportions.
+"
+Visit-info.csv,Indoor Surfaces Clean,cleaned up percentage of time wearing shoes on indoor surfaces,numeric,"-50 (indicates binary yes response), 0-100",,"Accounting for all other surface type values, the percentage of time walking across indoor surfaces. "
+Visit-info.csv,Rocky Surfaces,proportion of time wearing study shoes on rocky surfaces as recorded by the participant,text,,,"Participant reported values for the proportion of time wearing the study shoes on rocky surfaces. May include percentages mixed in with proportions.
+"
+Visit-info.csv,Rocky Surfaces Clean,cleaned up percentage of time wearing shoes on rocky surfaces,numeric,"-50 (indicates binary yes response), 0-100",,"Accounting for all other surface type values, the percentage of time walking across rocky surfaces. "
+Visit-info.csv,Muddy or Other Wet Surfaces,proportion of time wearing study shoes on muddy/wet surfaces as recorded by the participant,text,,,"Participant reported values for the proportion of time wearing the study shoes on muddy/wet surfaces. May include percentages mixed in with proportions.
+"
+Visit-info.csv,Muddy or Other Wet Surfaces Clean,cleaned up percentage of time wearing shoes on muddy/wet surfaces,numeric,"-50 (indicates binary yes response), 0-100",,"Accounting for all other surface type values, the percentage of time walking across muddy/wet surfaces. "
+Visit-info.csv,Pavement Cement or Similar,proportion of time wearing study shoes on pavement/cement surfaces as recorded by the participant,text,,,"Participant reported values for the proportion of time wearing the study shoes on pavement/cement surfaces. May include percentages mixed in with proportions.
+"
+Visit-info.csv,Pavement Cement or Similar Clean,cleaned up percentage of time wearing shoes on pavement/cement surfaces,numeric,"-50 (indicates binary yes response), 0-100",,"Accounting for all other surface type values, the percentage of time walking across pavement/cement surfaces. "
+Visit-info.csv,Sport Activities,number of times each week wearing study shoes while participating in sports,text,,,Participant reported value for the number of times during a particular week using study shoes to practice each activity
+Visit-info.csv,Sport Activities Clean,cleaned up percentage of time wearing shoes while participating in sports ,numeric,"-50 (indicates binary yes response), 0-100",,Percentage of total reported activities wearing the study shoes. Cleaned up by experimenters to conform to a reasonable standard.
+Visit-info.csv,Walking,,text,,,Participant reported value for the number of times during a particular week using study shoes to practice each activity
+Visit-info.csv,Walking Clean,,numeric,"-50 (indicates binary yes response), 0-100",,Percentage of total reported activities wearing the study shoes. Cleaned up by experimenters to conform to a reasonable standard.
+Visit-info.csv,Dancing,,text,,,Participant reported value for the number of times during a particular week using study shoes to practice each activity
+Visit-info.csv,Dancing Clean,,numeric,"-50 (indicates binary yes response), 0-100",,Percentage of total reported activities wearing the study shoes. Cleaned up by experimenters to conform to a reasonable standard.
+Visit-info.csv,Climbing,,text,,,Participant reported value for the number of times during a particular week using study shoes to practice each activity
+Visit-info.csv,Climbing Clean,,numeric,"-50 (indicates binary yes response), 0-100",,Percentage of total reported activities wearing the study shoes. Cleaned up by experimenters to conform to a reasonable standard.
+Visit-info.csv,Hiking,,text,,,Participant reported value for the number of times during a particular week using study shoes to practice each activity
+Visit-info.csv,Hiking Clean,,numeric,"-50 (indicates binary yes response), 0-100",,Percentage of total reported activities wearing the study shoes. Cleaned up by experimenters to conform to a reasonable standard.
+Visit-info.csv,Biking,,text,,,Participant reported value for the number of times during a particular week using study shoes to practice each activity
+Visit-info.csv,Biking Clean,,numeric,"-50 (indicates binary yes response), 0-100",,Percentage of total reported activities wearing the study shoes. Cleaned up by experimenters to conform to a reasonable standard.

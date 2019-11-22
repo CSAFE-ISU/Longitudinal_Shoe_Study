@@ -33,8 +33,8 @@ Scans of shoe prints obtained following the CSAFE mat scan procedure.
 - Method_Image_Replicate_Codebook.csv: Contains descriptions of the metadata encoded in each file name.
 - Variable_Codebook.csv: Contains descriptions of the auxiliary data collected along with the images (survey results, participant height and weight, number of steps, etc.)
 
-- FilmScanImages.zip
-Contains the scans of the shoe prints taken with the 2D Digital scan methodology. Images are named with respect to the following convention:
+- ShoePressureScanFiles.zip
+Contains the scans of the shoe prints taken with the mat scan methodology. Images are named with respect to the following convention:
   `{ID#}_{Date}_{Method}_{Image#}_{Rep#}_{ID of technician(s)}` where:
   - ID# is a 6 digit number followed by {RL} indicating right (R), or left (L) shoe. The first three digits are the shoe ID and the second three digits are a checksum.
   - Date, in yyyymmdd format, indicating the date the data was collected (not the date the shoes were turned in for data collection).
@@ -53,11 +53,10 @@ Also contains 3 separate comma separated data files:
 The study consists of 160 pairs of shoes:
   - Two models (Nike Winflo 4 or Adidas Seeley)
   - Four possible sizes for each model
-Each pair of shoes was worn for at least 10,000 steps per week over a 6-month period, with multiple measurements of the shoe soles taken initially and during three check-in periods spaced at approximately 5 week intervals.
+Each pair of shoes was worn for at least 10,000 steps per week over a 6-month period, with multiple measurements of the shoe soles taken initially and during three check-in periods spaced at approximately 5 week intervals, though for this method, data was only collected for the initial period.
 
-Prints and measurements for this data set were taken using the following equipment:  Digital Camera (Print on Vinyl). This method is documented in the CSAFE Longitudinal Shoe Study Collection Procedures Collection (DOI: http://doi.org/10.25380/iastate.8016341), specifically the following documents:
-  - Paper_Vinyl_Prints.pdf
-  - Digital_Camera.pdf
+Prints and measurements for this data set were taken using the following equipment:  Tekscan Mat Scanner. This method is documented in the CSAFE Longitudinal Shoe Study Collection Procedures Collection (DOI: http://doi.org/10.25380/iastate.8016341), specifically the following documents:
+  - Tekscan_Mat_Scanner.pdf
 
 
 == LICENSING ==
@@ -86,18 +85,18 @@ Images are named with respect to the following convention:
 - R = right shoe, L = left shoe
 - Date, in yyyymmdd format, indicating the date the data was collected (not the date the shoes were turned in for data collection)
 - Method_Image_Replicate: these fields are hierarchically determined - the meaning of the values for image and replicate depend on the method.
-- Method: 1 = Matscan
-- Image:
-1. avi (video)
-2. csv/excel file with data from all frames
-3. JPEG (single frame)
-4. csv/excel file with single frame
-5. movie recording (not transferred)
-- Replicate:
-- 1-3: Right, barefoot
-- 4-6: Left, barefoot
-- 7-9: Right, with shoe
-- 10-12: Left, with shoe
+  - Method: 1 = Matscan
+  - Image:
+    1. avi (video)
+    2. csv/excel file with data from all frames
+    3. JPEG (single frame)
+    4. csv/excel file with single frame
+    5. movie recording (not transferred)
+  - Replicate:
+    - 1-3: Right, barefoot
+    - 4-6: Left, barefoot
+    - 7-9: Right, with shoe
+    - 10-12: Left, with shoe
 - ID of technician(s): Some methods require that an individual wear the shoe, another individual collect the data; in those cases names are separated by underscores.
 
 The images are accompanied by 3 CSV files describing the shoes, visit (information collected from surveys along with the shoes), and individual images.
