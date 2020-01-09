@@ -1,0 +1,12 @@
+---
+title: "Credit Author statement"
+output: pdf_document
+---
+
+Susan Vanderplas - writing - original draft, writing- review and editing, visualization, data curation, 
+
+James Kruse - investigation
+
+Guillermo Basulto Elias - investigation
+
+Alicia Carriquiry - conceptualization, supervision, resources, funding acquisition
