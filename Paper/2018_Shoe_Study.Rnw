@@ -1,7 +1,19 @@
 \documentclass{elsarticle}
-
+\usepackage{fullpage}
 \usepackage{lineno,hyperref}
 \modulolinenumbers[5]
+\makeatletter
+\providecommand{\doi}[1]{%
+  \begingroup
+    \let\bibinfo\@secondoftwo
+    \urlstyle{rm}%
+    \href{http://dx.doi.org/#1}{%
+      doi:\discretionary{}{}{}%
+      \nolinkurl{#1}%
+    }%
+  \endgroup
+}
+\makeatother
 
 \usepackage[numbers]{natbib}
 
@@ -43,7 +55,6 @@
 % \bibliographystyle{unsrtnat}
 
 % --- Formatting ---
-\usepackage{hyperref}
 \usepackage{xcolor}
 \usepackage{booktabs}
 \usepackage{colortbl}
@@ -68,6 +79,9 @@ loaded.pkgs <- sapply(required.pkgs, library, character.only = T)
 data_location <- here::here("Paper/sampledata")
 @
 
+
+\usepackage{cleveref}
+% \usepackage{endfloat}
 
 % \author{Susan VanderPlas, James Kruse, Guillermo Basulto-Elias, Alicia Carriquiry}
 
@@ -96,21 +110,24 @@ data_location <- here::here("Paper/sampledata")
 % \address[mysecondaryaddress]{360 Park Avenue South, New York}
 
 
-\author[csafe,unl]{Susan Vanderplas\corref{corauthor}}
-\author[jkaffil]{James Kruse}
-\author[intrans]{Guillermo Basulto-Elias}
-\author[csafe,isustat]{Alicia Carriquiry}
-
+\author[unl]{Susan Vanderplas\corref{corauthor}}
 \cortext[corauthor]{Corresponding author}
 \ead{susan.vanderplas@unl.edu}
-\address[csafe]{Center for Statistical Applications in Forensic Evidence, Iowa State University. 613 Morrill Rd, Ames, IA 50011}
 \address[unl]{Statistics Department, University of Nebraska Lincoln. 3310 Holdrege St, Lincoln, NE 68503}
+
+\author[jkaffil]{James Kruse}
 \address[jkaffil]{Sociology Department, Iowa State University. 510 Farm House Ln. Ames, IA 50011}
+
+\author[intrans]{Guillermo Basulto-Elias}
 \address[intrans]{Institute for Transportation, Iowa State University. 2711 South Loop Drive, Suite 4700. Ames, IA 50010}
+
+\author[csafe,isustat]{Alicia Carriquiry}
+\address[csafe]{Center for Statistical Applications in Forensic Evidence, Iowa State University. 613 Morrill Rd, Ames, IA 50011}
 \address[isustat]{Statistics Department, Iowa State University. 2438 Osborne Dr, Ames, IA 50011}
 
 
 \begin{abstract}
+In this paper, we describe the data collected as a result of a longitudinal study of athletic shoe wear over the course of approximately 6 months. During the 6-month period, we collected impressions and digital scans of the shoes at 4 intervals. The data generated from this study will serve as a publicly accessible resource for future studies of RAC distribution, wear pattern development, automated identification algorithm assessment, and examiner assessments. This paper describes the collection methods and available data with the goal of introducing the forensic science community to this unparalleled trove of research data.
 \end{abstract}
 
 \begin{keyword}
@@ -164,9 +181,9 @@ shoe_model_data %>%
   kableExtra::kable_styling(latex_options = "striped", stripe_index = c(1:2, 5:6))
 @
 
-Each shoe was provided in four sizes, shown in \autoref{tab:shoesize}. Participants were given the choice of which model of shoe they would like to wear, producing an imbalance in the distribution of Nike and Adidas shoes. At the beginning of the study, participants completed some initial testing (described in more detail below) and completed a survey which provided information about activities (walking, running, hiking) as well as participant characteristics such as weight which affect the shoe's wear over time. Shoes were fitted with a pedometer to measure activity, and participants committed to wearing the shoes for at least 10,000 steps per week.
+Each shoe was provided in four sizes, shown in \Cref{tab:shoesize}. Participants were given the choice of which model of shoe they would like to wear, producing an imbalance in the distribution of Nike and Adidas shoes. At the beginning of the study, participants completed some initial testing (described in more detail below) and completed a survey which provided information about activities (walking, running, hiking) as well as participant characteristics such as weight which affect the shoe's wear over time. Shoes were fitted with a pedometer to measure activity, and participants committed to wearing the shoes for at least 10,000 steps per week.
 
-After the initial data collection, which was more extensive, participants returned the shoes once every 5-6 weeks for 3 check-ins. Participants completed a questionnaire describing their activities whilst wearing the shoes, and the shoes were left for a period of approximately one week, during which various data collection techniques were completed. These data collection techniques are described in \autoref{sec:measurement-methods} in more detail.
+After the initial data collection, which was more extensive, participants returned the shoes once every 5-6 weeks for 3 check-ins. Participants completed a questionnaire describing their activities whilst wearing the shoes, and the shoes were left for a period of approximately one week, during which various data collection techniques were completed. These data collection techniques are described in \Cref{sec:measurement-methods} in more detail.
 
 \section{Measurement Methods}\label{sec:measurement-methods}
 % Description and technical specifications for each data collection type
@@ -176,7 +193,7 @@ Six basic collection methods were used throughout the study: 2D digital scanning
 In this section we will provide a brief description of each collection method, including examples of the collected data as well as theoretical resolution (where appropriate).
 
 \subsection{Pressure Scanner}
-Pressure scans were recorded during the initial participant visit (that is, when participants were first issued shoes), using a Tekscan HR Mat scanner with a sensor resolution of $0.5 \text{cm}^2$ and temporal resolution of 185 Hz\footnote{\url{https://www.tekscan.com/products-solutions/systems/hr-mat}. Cached version available at \url{https://webcache.googleusercontent.com/search?q=cache:BZBl2bvx-H4J:https://www.tekscan.com/products-solutions/systems/hr-mat+}}. Participants walked across the mat 12 times, resulting in 3 scans of each foot while wearing a shoe, and 3 scans of each foot while wearing only a thin disposable sock. Videos and still images of the pressure distribution were saved; frames from the video and still images are shown in Figures \ref{fig:pressurescanner-video} and \ref{fig:pressurescanner-static}, respectively.
+Pressure scans were recorded during the initial participant visit (that is, when participants were first issued shoes), using a Tekscan HR Mat scanner with a sensor resolution of $0.5 \text{cm}^2$ and temporal resolution of 185 Hz\footnote{\url{https://www.tekscan.com/products-solutions/systems/hr-mat}. Cached version available at \url{https://webcache.googleusercontent.com/search?q=cache:BZBl2bvx-H4J:https://www.tekscan.com/products-solutions/systems/hr-mat+}}. Participants walked across the mat 12 times, resulting in 3 scans of each foot while wearing a shoe, and 3 scans of each foot while wearing only a thin disposable sock. Videos and still images of the pressure distribution were saved; frames from the video and still images are shown in Figures \ref{fig:pressurescanner-video} and \ref{fig:pressurescanner-static}, respectively. The pressure scan data are archived separately \citep{mat-scanner} and are also available as part of the larger collection \citep{collection}.
 
 <<pressurescanner-data-function, include = F>>=
 read_csv_video <- function(file) {
@@ -308,7 +325,7 @@ Pressure scans were not taken during subsequent check-in measurement points beca
 
 At each measurement point throughout the study, shoes were imaged using a two-dimensional digital scanner, the Everspry EverOS v2.0\footnote{\url{http://www.footprintmatcher.com/products/EverOS\%20V2.0.pdf}}. This scanner provides 300 dpi image resolution and records areas where the shoe tread contacts the walking surface.
 
-In order to image the shoes using the EverOS scanner, lab assistants wore the participants' shoes while traversing the scanner in two different ways: normal walking, and a more stationary ``detail" print. Examples of these images are shown in \autoref{fig:everos-imgs}. Two replicates of each shoe and image type combination were taken in order to facilitate estimation of variability in print features \citep{shorInherentVariationMultiple2018}, for a total of 8 2D scans per measurement point.
+In order to image the shoes using the EverOS scanner, lab assistants wore the participants' shoes while traversing the scanner in two different ways: normal walking, and a more stationary ``detail" print. Examples of these images are shown in \Cref{fig:everos-imgs}. Two replicates of each shoe and image type combination were taken in order to facilitate estimation of variability in print features \citep{shorInherentVariationMultiple2018}, for a total of 8 2D scans per measurement point. The 2D scans are available separately \citep{2dscan} and as part of the data collection \citep{collection}.
 
 <<everos-imgs, fig.cap = "Digital images taken using the EverOS v2.0 scanner. Images are from the left shoes of participants 005 and 007, taken during the initial visit (before participants had worn the shoes).", cache.lazy = FALSE, fig.width = 8, fig.height = 8/5*2, out.width = "\\textwidth">>=
 everos_imgs <- list.files(data_location, pattern = "^00[57]\\d{3}L_2017\\d{4}_2_[12]_1_.*", full.names = T)
@@ -361,7 +378,7 @@ ggplot(data = raster_data_plot, aes(x = row, y = col, fill = value)) +
 \subsection{3D Digital Scanner}
 At each measurement point, shoes were also scanned with a three-dimensional scanner; specifically, the EinScan-Pro+ scanner\footnote{\url{https://www.einscan.com/handheld-3d-scanner/einscan-pro-plus/}}. The sole of each shoe was scanned using ``Handheld Rapid Scan" mode from approximately 12" above the shoe sole to produce a STL file characterizing the surface. Two replicates from each shoe were recorded. Additionally, an additional replicate was recorded for 25 selected participants, resulting in a total of 3 replicates in the extended subset.
 
-At the conclusion of the study, the shoe soles were scanned using the scanner's auxiliary turntable, which produces much higher resolution scans. Low and high resolution scans of the left shoes of participants 005 and 007 are shown in \autoref{fig:3dscans}.
+At the conclusion of the study, the shoe soles were scanned using the scanner's auxiliary turntable, which produces much higher resolution scans. Low and high resolution scans of the left shoes of participants 005 and 007 are shown in \Cref{fig:3dscans}. The 2D scans are available separately \citep{3dscan} and as part of the data collection \citep{collection}.
 
 \begin{figure}
 $\vcenter{\hbox{\includegraphics[width=.49\textwidth]{figure/3d_shoes_Participant_005_Handheld_scan.png}}}$
@@ -440,9 +457,9 @@ purrr::walk(ims, function(file_path) {
 
 
 \subsection{Digital Photography}
-A Canon EOS 5D Mark IV camera was used to take photographs of the shoe soles. Shoes were positioned light-colored surface, with a ruler in the camera frame to provide scale information. Two images were captured for each shoe.
+A Canon EOS 5D Mark IV camera was used to take photographs of the shoe soles\citep{photos}. Shoes were positioned light-colored surface, with a ruler in the camera frame to provide scale information. Two images were captured for each shoe.
 
-During the experiment, the photography procedure changed slightly on recommendations from practitioners and statistical analysts. L-rulers were added on a stand to be level with the shoe sole, and the background of the image was changed to make the images easier to work with. A summary of the changes to the photography procedure can be found in the appendix, but most changes are easily discernible from the example images in \autoref{fig:dslr-photos}.
+During the experiment, the photography procedure changed slightly on recommendations from practitioners and statistical analysts. L-rulers were added on a stand to be level with the shoe sole, and the background of the image was changed to make the images easier to work with. A summary of the changes to the photography procedure can be found in the appendix, but most changes are easily discernible from the example images in \Cref{fig:dslr-photos}.
 
 \begin{figure}
 \includegraphics[angle=90,width=.24\textwidth]{sampledata/small-005772L_20171213_4_1_1_csafe_jekruse.jpg}
@@ -457,7 +474,7 @@ During the experiment, the photography procedure changed slightly on recommendat
 \end{figure}
 
 \subsection{Adhesive Film and Powder Prints}
-In order to record the shoe surface in great detail, prints were collected using clear vinyl adhesive film and fingerprint powder. Vinyl film has been proposed as an inexpensive alternative to electrostatic lifters for recovery of prints at crime scenes \citep{lemayValidationVinylStatic2011}; it also provides an inexpensive way to record the surface of the shoe directly\citep{whitlowInvestigationTestImpression2017}. In order to directly measure the shoe's surface, it was first dusted with fingerprint powder using a brush; excess powder was removed using a light jet of compressed air. A research assistant carefully put the shoe on, placing the heel of the shoe against the edge of the adhesive film, and used a roll step to ensure that the entire shoe sole made contact with the adhesive film (a ``detail" print). A second print was taken by pressing the shoe onto the adhesive film without the full roll step to mimic the normal contact surface of the shoe (a ``press" print). The film backing was then reapplied to the adhesive film using a roller, and scanned using a high resolution flatbed scanner. For 25 of the 160 pairs of shoes in the study, an additional replicate of each print was recorded in order to assess variability between repeated measurements of the same shoe. Examples of the walking and detailed prints are shown in \autoref{fig:film-powder}. Initially, prints were taken on the bare floor; at the recommendation of our colleagues in the Israeli Police, we added a thin piece of foam under the adhesive film to allow for better detail capture (as documented in \citet{shorInherentVariationMultiple2018}). As a result, in the initial film prints, small sections of the outer edge of the shoe are missing from the print; these areas were better captured after the addition of the foam.
+In order to record the shoe surface in great detail, prints were collected using clear vinyl adhesive film and fingerprint powder\citep{film-powder}. Vinyl film has been proposed as an inexpensive alternative to electrostatic lifters for recovery of prints at crime scenes \citep{lemayValidationVinylStatic2011}; it also provides an inexpensive way to record the surface of the shoe directly\citep{whitlowInvestigationTestImpression2017}. In order to directly measure the shoe's surface, it was first dusted with fingerprint powder using a brush; excess powder was removed using a light jet of compressed air. A research assistant carefully put the shoe on, placing the heel of the shoe against the edge of the adhesive film, and used a roll step to ensure that the entire shoe sole made contact with the adhesive film (a ``detail" print). A second print was taken by pressing the shoe onto the adhesive film without the full roll step to mimic the normal contact surface of the shoe (a ``press" print). The film backing was then reapplied to the adhesive film using a roller, and scanned using a high resolution flatbed scanner. For 25 of the 160 pairs of shoes in the study, an additional replicate of each print was recorded in order to assess variability between repeated measurements of the same shoe. Examples of the walking and detailed prints are shown in \Cref{fig:film-powder}. Initially, prints were taken on the bare floor; at the recommendation of our colleagues in the Israeli Police, we added a thin piece of foam under the adhesive film to allow for better detail capture (as documented in \citet{shorInherentVariationMultiple2018}). As a result, in the initial film prints, small sections of the outer edge of the shoe are missing from the print; these areas were better captured after the addition of the foam.
 
 \begin{figure}
 $\vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-005772L_20171211_5_1_1_csafe_kruse-bryson-zwart.jpg}}}
@@ -485,7 +502,7 @@ $\vcenter{\hbox{\includegraphics[width=.24\textwidth]{sampledata/small-007961L_2
 
 % \svp{Need to add the "why" for some of these prints.}
 
-In addition to the film and powder prints described above, prints were also collected on paper using fingerprint powder. As in the adhesive print section, a brush was used to apply fingerprint powder to the shoe sole, and compressed air was used to remove any excess powder before print collection. A research assistant put the shoe on and, in sequence, completed 4 prints with different motions and dynamic forces. First, the assistant used a roll step to carefully capture a highly detailed print, taking care that all portions of the shoe contact the paper surface. Next, the research assistant used a normal walking step to mark a second sheet of paper. For the third print, the assistant stomped on another sheet of paper, leaving a much more forceful impression; finally, the assistant stepped on the fourth sheet of paper and twisted their foot slightly, leaving a smudged print. Immediately after this sequence, the assistant completed the vinyl print described in the next section. Paper and powder prints were immediately labeled and laminated, then digitized using a high resolution flatbed scanner. Example prints are shown in \autoref{fig:paper-powder}.
+In addition to the film and powder prints described above, prints were also collected on paper using fingerprint powder\citep{paper-powder}. As in the adhesive print section, a brush was used to apply fingerprint powder to the shoe sole, and compressed air was used to remove any excess powder before print collection. A research assistant put the shoe on and, in sequence, completed 4 prints with different motions and dynamic forces. First, the assistant used a roll step to carefully capture a highly detailed print, taking care that all portions of the shoe contact the paper surface. Next, the research assistant used a normal walking step to mark a second sheet of paper. For the third print, the assistant stomped on another sheet of paper, leaving a much more forceful impression; finally, the assistant stepped on the fourth sheet of paper and twisted their foot slightly, leaving a smudged print. Immediately after this sequence, the assistant completed the vinyl print described in the next section. Paper and powder prints were immediately labeled and laminated, then digitized using a high resolution flatbed scanner. Example prints are shown in \Cref{fig:paper-powder}.
 
 \begin{figure}
 \includegraphics[width=.24\textwidth]{sampledata/small-005772L_20180411_6_1_1_kruse_zwart_Kruse.jpg}
@@ -503,7 +520,7 @@ This portion of the experiment was included in order to provide some reference d
 
 \subsection{Vinyl and Powder Prints}
 
-All of the methods used thus far to record shoe sole details do not address the distortions and quality degradation that often occur in prints left at a crime scene. In order to mimic the challenges of using prints recovered from the crime scene, we recorded two replicates of prints on wood-patterned vinyl flooring. These prints were recorded after the paper and powder prints described in the previous section, without reapplying fingerprint powder to the shoe. Oblique light sources were  placed in order to highlight the features of the print, and after the initial data collection, a square ruler is included in the print for scale. The prints were then photographed with a high-resolution digital camera; examples are shown in \autoref{fig:vinyl-powder}.
+All of the methods used thus far to record shoe sole details do not address the distortions and quality degradation that often occur in prints left at a crime scene. In order to mimic the challenges of using prints recovered from the crime scene, we recorded two replicates of prints on wood-patterned vinyl flooring\citep{vinyl-powder}. These prints were recorded after the paper and powder prints described in the previous section, without reapplying fingerprint powder to the shoe. Oblique light sources were  placed in order to highlight the features of the print, and after the initial data collection, a square ruler is included in the print for scale. The prints were then photographed with a high-resolution digital camera; examples are shown in \Cref{fig:vinyl-powder}.
 
 \begin{figure}
 \includegraphics[width=.49\textwidth]{sampledata/small-005772L_20171108_7_1_1_csafe_bpbryson.jpg}
@@ -518,13 +535,14 @@ All of the methods used thus far to record shoe sole details do not address the 
 \end{figure}
 
 \section{Data Access}
-All of the data described in the previous section is publicly available at the CSAFE Forensic Science Data Portal (\url{https://forensicstats.org/data/}), along with relevant metadata (participant weight, number of steps at each data collection point, surfaces walked across) and detailed data collection procedures describing exactly how the data was collected and any changes made in the data collection procedures during the experiment (such as the addition of the square rulers in photographs). Additional bulk downloads of the collection are available at \url{http://doi.org/10.25380/iastate.c.4477757}. The Data Portal site links to a visual database which can be used to select subsets of the data described in this paper for specific analysis projects.
-
+All of the data described in the previous section is publicly available at the \href{https://forensicstats.org/shoeoutsoleimpressionstudy/}{CSAFE Forensic Science Data Portal}\footnote{\url{https://forensicstats.org/shoeoutsoleimpressionstudy/}}, along with relevant metadata (e.g. participant weight, number of steps at each data collection point, surfaces walked across) and detailed data collection procedures describing exactly how the data was collected and any changes made in the data collection procedures during the experiment (such as the addition of the square rulers in photographs).
+The Data Portal site links to a visual database which can be used to select subsets of the data described in this paper for specific analysis projects.
+Additional bulk downloads of the collection\citep{collection} are available at \url{http://doi.org/10.25380/iastate.c.4477757}; the collection also links to individual bulk downloads of data from each collection method.
 
 \section{Discussion}
-The data described in this paper are well beyond the scope of any currently available, free, public research database of shoe prints. We envision many different potential analyses which could be conducted using these data, including examinations of the power of methods to capture RACs and other data features, comparisons of wear pattern development over time (with corresponding analysis of pressure individual pressure pattern distributions), studies of the effects of different kinematics using the paper prints, and many other options. In addition, we hope that these data will be one resource for conducting white and black-box examiner studies, as there are multiple different shoes of the same size and type in this data set, providing the opportunity to examine comparisons within shoe models. This study is not intended to provide material which exactly emulates case work: we expect it will be far more useful to the research community than to examiners directly, because the study's design explores so many different factors of interest in footwear research.
+The data described in this paper are well beyond the scope of any currently available, free, public research database of shoe prints. We envision many different potential analyses which could be conducted using these data, including examinations of the power of each method to capture RACs, wear, and other features. The data sets may also allow for comparisons of wear pattern development over time (with corresponding analysis of pressure individual pressure pattern distributions), studies of the effects of different kinematics using the paper prints, and development of alignment and automatic identification methods for athletic shoes. In addition, we hope that these data will be one resource for conducting white and black-box examiner studies, as there are multiple different shoes of the same size and type in this data set, providing the opportunity to examine comparisons within shoe models. This study is not intended to provide material which exactly emulates case work: we expect it will be far more useful to the research community than to examiners directly, because the study's design explores so many different factors of interest in footwear research.
 
-While the data described here are extensive and well beyond the scope of any currently available public database of shoe prints, we did encounter some challenges and limitations during the study which may impact the results. While we will endeavor to correct these issues during follow-up studies, the data as collected consist of snapshots of the best procedures we had for data collection at the time. In several cases, we discovered during the course of the experiment better or more reliable methods of capturing the data, leading to changes in collection procedures. The collection procedures and any changes to those procedures are available online (\url{http://doi.org/10.25380/iastate.8016341}); notable changes include modifications of the Digital Camera procedure to include an L-shaped ruler at the precise height of the shoe sole as well as a background which could be more easily identified and isolated from the shoe sole. At the end of the study, we discovered that a turntable was available for the 3D scanner, facilitating the capture of data at higher resolution; as a result, the final 3D scans are of considerably higher resolution than the initial scans. The film used to collect the film and powder prints is of two different varieties (provided by the same supplier) with different patterns of the backing paper and a slightly different tint. In many cases, these changes only peripherally affect the data which were recorded.
+While the data described here are extensive and well beyond the scope of any currently available public database of shoe prints, we did encounter some challenges and limitations during the study which may impact the results. The data collected consist of snapshots of the best procedures we had for data collection at the time; the deficiencies in these procedures which became obvious during the course of the study can only be addressed in future studies. In several cases, we discovered during the course of the experiment better or more reliable methods of capturing the data, leading to changes in collection procedures. The collection procedures and any changes to those procedures are available \citep{procedures}; notable changes include modifications of the Digital Camera procedure to include an L-shaped ruler at the precise height of the shoe sole as well as a background which could be more easily identified and isolated from the shoe sole. At the end of the study, we discovered that a turntable was available for the 3D scanner, facilitating the capture of data at higher resolution; as a result, the final 3D scans are of considerably higher resolution than the initial scans. The film used to collect the film and powder prints is of two different varieties (provided by the same supplier) with different patterns of the backing paper and a slightly different tint. In many cases, these changes only peripherally affect the data which were recorded.
 
 Due to logistical limitations, the data captured while the shoe was being worn (2D scanner, film and powder, vinyl and powder, paper and powder) could not be captured using the participant and primary wearer of the shoe; instead, in these cases, research assistants wore the shoes while data were recorded. While this made subject recruitment considerably easier and decreased the time commitment required of participants, this decision did create some additional artifacts in the data: due to variation in weight and height of the research assistants, the prints were not recorded under the exact same conditions at each time point. If we were to repeat this experiment subject to the same limitations on participant time, we would at least control for the variability by ensuring that the same research assistants wore the same shoes during data collection at each time point.
 
