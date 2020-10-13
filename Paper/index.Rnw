@@ -1,7 +1,19 @@
 \documentclass{elsarticle}
-
+\usepackage{fullpage}
 \usepackage{lineno,hyperref}
 \modulolinenumbers[5]
+\makeatletter
+\providecommand{\doi}[1]{%
+  \begingroup
+    \let\bibinfo\@secondoftwo
+    \urlstyle{rm}%
+    \href{http://dx.doi.org/#1}{%
+      doi:\discretionary{}{}{}%
+      \nolinkurl{#1}%
+    }%
+  \endgroup
+}
+\makeatother
 
 \usepackage[numbers]{natbib}
 
@@ -68,6 +80,7 @@ loaded.pkgs <- sapply(required.pkgs, library, character.only = T)
 data_location <- here::here("Paper/sampledata")
 @
 
+\usepackage{cleveref}
 
 % \author{Susan VanderPlas, James Kruse, Guillermo Basulto-Elias, Alicia Carriquiry}
 
@@ -76,11 +89,12 @@ data_location <- here::here("Paper/sampledata")
 \begin{frontmatter}
 
 
-\input{blind-info.tex}
+\input{blind-info.text}
 
 \begin{abstract}
-\input{abstract.tex}
+\input{abstract.text}
 \end{abstract}
+
 
 \begin{keyword}
 forensic science, footwear, athletic footwear, database, wear, randomly acquired characteristics, longitudinal study

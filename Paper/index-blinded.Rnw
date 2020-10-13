@@ -91,10 +91,10 @@ data_location <- here::here("Paper/sampledata")
 \begin{frontmatter}
 
 
-% \input{blind-info.tex}
+% \input{blind-info.text}
 
 \begin{abstract}
-\input{abstract.tex}
+\input{abstract.text}
 \end{abstract}
 
 \begin{keyword}
@@ -519,7 +519,7 @@ There are obviously additional limitations to these data introduced by the inclu
 We are planning several follow-up studies which will expand the database and leverage the methodological testing from this experiment to produce more precise results. We hope to collect data for a supplemental database containing  shoes with different brands, patterns, and manufacturing methods/material composition. In addition, we are in the process of testing procedures for recording data similar to that which might be found at a crime scene, including simulated prints in dust as well as impressions in dirt and mud and casts of those impressions. We plan to use the shoes from this study to create prints which can then be used for more realistic examiner testing.
 
 
-\bibliography{refs}
+\bibliography{refs-redacted}
 
 \end{document}
 
