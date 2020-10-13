@@ -1,0 +1,12 @@
+---
+title: "Highlights"
+output: word_document
+---
+
+- Longitudinal study of 160 pairs of athletic shoes
+
+- Compare 2D and 3D scans, photographs, and powder images
+
+- Large, publicly available database 
+
+- Associated metadata (steps, surfaces, wearer information) included
