@@ -49,7 +49,8 @@ scan_info <- tibble(
 align_scan_data <- select(scan_info, ShoeID, Shoe_foot, date, rep, Brand, Size, clean) %>%
   mutate(rep = paste0("clean", str_sub(rep, 1, 1))) %>%
   tidyr::spread(key = rep, value = clean) %>%
-  mutate(aligned = purrr::map2(clean1, clean2, fft_align, signal = 0))
+  mutate(aligned = purrr::map2(clean1, clean2, fft_align, signal = 0)) %>%
+  select(-clean1, -clean2)
 
 align_scan_data <- left_join(
   align_scan_data,
